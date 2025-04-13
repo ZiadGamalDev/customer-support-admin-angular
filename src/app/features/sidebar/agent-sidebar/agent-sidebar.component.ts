@@ -17,6 +17,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class AgentSidebarComponent implements OnInit {
   agentStatus: 'available' | 'away' | 'busy' = 'away';
   previousStatus: typeof this.agentStatus = 'away';
+  isSidebarOpen = false;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
 
   constructor(
     private authService: AuthService,

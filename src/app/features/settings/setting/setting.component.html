@@ -12,19 +12,11 @@
   The sidebar is a fixed width, and the main content can flex.
 -->
 
-<div class="min-h-screen bg-gray-100">
-  <div class="flex flex-row">
-    <!-- Sidebar -->
-    <app-agent-sidebar
-      class="w-[250px] fixed bg-white shadow-md"
-    ></app-agent-sidebar>
-
-    <!-- Main content area -->
-    <div class="flex-1 p-6 ml-[250px]">
-      <app-profile></app-profile>
-      <app-edit-profile></app-edit-profile>
-      <app-security></app-security>
-     
-    </div>
+<div class="min-h-screen bg-gray-50">
+  <!-- Main content area -->
+  <div class="flex-1 p-6">
+    <app-profile></app-profile>
+    <app-edit-profile></app-edit-profile>
+    <app-security></app-security>
   </div>
 </div>

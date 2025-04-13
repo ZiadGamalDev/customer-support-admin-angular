@@ -1,17 +1,13 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 @import "tailwindcss";
 /* @import "bootstrap/dist/css/bootstrap.min.css"; */
 
-html,body {
+html,
+body {
   margin: 0;
   font-family: "Josefin Sans", sans-serif;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  /* min-height: 100vh; */
-   height: 100%;
-  /* overflow-y: auto; */ 
+  height: 100%;
 }
-
 
 .container {
   display: flex;

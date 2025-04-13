@@ -1,0 +1,166 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  animation: slideUp 0.5s ease-out;
+}
+
+.header-fancy {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+}
+
+mat-card-title {
+  color: #3f51b5;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.subtitle-fancy {
+  color: #555;
+  font-style: italic;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.error {
+  background: rgba(255, 0, 0, 0.1);
+  color: #d32f2f;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.mat-error {
+  font-size: 12px;
+}
+
+button.login {
+  background: linear-gradient(90deg, #adadad, #e6e6e6);
+  padding: 10px 0;
+  font-size: 16px;
+  color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+button.login:hover:not([disabled]) {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #e6e6e6, #adadad);
+}
+
+button[disabled] {
+  background: #ccc;
+  opacity: 0.7;
+}
+
+mat-spinner {
+  margin: 0 auto;
+}
+
+.link-text {
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.link-text a {
+  color: #000000;
+  text-decoration: none;
+  position: relative;
+}
+
+.link-text a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background-color: #000000;
+  transition: width 0.3s ease;
+}
+
+.link-text a:hover::after {
+  width: 100%;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .login-card {
+    margin: 10px;
+    border-radius: 12px;
+  }
+
+  mat-card-title {
+    font-size: 20px;
+  }
+
+  .subtitle-fancy {
+    font-size: 12px;
+  }
+
+  button.mat-raised-button {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+
+  .header-icon mat-icon {
+    font-size: 32px;
+  }
+}

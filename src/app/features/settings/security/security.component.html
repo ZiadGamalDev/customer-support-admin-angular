@@ -1,0 +1,233 @@
+<div class="ml-4 mb-8 bg-white border border-gray-200 rounded-xl shadow p-6">
+  <!-- Header (Title) -->
+  <div class="flex items-center mb-6">
+    <h2 class="text-xl font-semibold text-gray-800">Change Password</h2>
+  </div>
+
+  <!-- Error & Success Messages -->
+  @if (errorMessage) {
+  <div class="text-red-700 bg-red-100 p-2 rounded mb-4">
+    {{ errorMessage }}
+  </div>
+  } @if (successMessage) {
+  <div class="text-green-700 bg-green-100 p-2 rounded mb-4">
+    {{ successMessage }}
+  </div>
+  }
+
+  <!-- Form -->
+  <form [formGroup]="passwordForm" (ngSubmit)="onSubmit()">
+    <!-- Old Password Field -->
+    <div class="mb-6">
+      <label for="oldPassword" class="font-medium block text-gray-700 mb-1">
+        Old Password
+      </label>
+      <div class="relative">
+        <input
+          [type]="showOldPassword ? 'text' : 'password'"
+          id="oldPassword"
+          formControlName="oldPassword"
+          class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2 pr-10"
+          required
+        />
+        <button
+          type="button"
+          (click)="showOldPassword = !showOldPassword"
+          class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+        >
+          <i [class]="showOldPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+        </button>
+      </div>
+      @if (oldPasswordControl?.invalid && oldPasswordControl?.touched) {
+      <small class="text-red-700 flex items-center mt-1">
+        <i class="fas fa-exclamation-circle mr-1"></i>
+        Password is required
+      </small>
+      }
+    </div>
+
+    <!-- New Password Field -->
+    <div class="mb-6">
+      <label for="newPassword" class="font-medium block text-gray-700 mb-1">
+        New Password
+      </label>
+      <div class="relative">
+        <input
+          [type]="showNewPassword ? 'text' : 'password'"
+          id="newPassword"
+          formControlName="newPassword"
+          class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2 pr-10"
+          required
+        />
+        <button
+          type="button"
+          (click)="showNewPassword = !showNewPassword"
+          class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+        >
+          <i [class]="showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+        </button>
+      </div>
+      @if (newPasswordControl?.errors?.['required'] && newPasswordControl?.touched) {
+      <small class="text-red-700 flex items-center mt-1">
+        <i class="fas fa-exclamation-circle mr-1"></i>
+        New password is required
+      </small>
+      }
+
+      <!-- Password Strength Indicator -->
+      <div class="mt-2">
+        <div class="h-2 bg-gray-200 rounded-full">
+          <div
+            class="h-full rounded-full transition-all duration-300"
+            [style.width.%]="passwordStrength"
+            [ngClass]="{
+              'bg-red-500': passwordStrength <= 20,
+              'bg-yellow-500': passwordStrength > 20 && passwordStrength <= 60,
+              'bg-green-500': passwordStrength > 60
+            }"
+          ></div>
+        </div>
+        <small class="text-gray-500 mt-1" *ngIf="newPasswordControl?.value">
+          Password strength:
+          <span
+            [ngClass]="{
+              'text-red-500': passwordStrength <= 20,
+              'text-yellow-500':
+                passwordStrength > 20 && passwordStrength <= 60,
+              'text-green-500': passwordStrength > 60
+            }"
+          >
+            {{
+              passwordStrength <= 20
+                ? "Weak"
+                : passwordStrength <= 60
+                ? "Medium"
+                : "Strong"
+            }}
+          </span>
+        </small>
+      </div>
+
+      <!-- Password Requirements List -->
+      <div class="mt-2 space-y-1">
+        <!-- Minimum Length Check -->
+        <small
+          class="flex items-center"
+          [class.text-green-600]="hasMinLength(newPasswordControl?.value)"
+          [class.text-gray-500]="!hasMinLength(newPasswordControl?.value)"
+        >
+          <i
+            class="fas mr-2"
+            [class.fa-check-circle]="hasMinLength(newPasswordControl?.value)"
+            [class.fa-circle]="!hasMinLength(newPasswordControl?.value)"
+          ></i>
+          Minimum 8 characters
+        </small>
+
+        <!-- Uppercase Check -->
+        <small
+          class="flex items-center"
+          [class.text-green-600]="hasUpperCase(newPasswordControl?.value)"
+          [class.text-gray-500]="!hasUpperCase(newPasswordControl?.value)"
+        >
+          <i
+            class="fas mr-2"
+            [class.fa-check-circle]="hasUpperCase(newPasswordControl?.value)"
+            [class.fa-circle]="!hasUpperCase(newPasswordControl?.value)"
+          ></i>
+          One uppercase letter
+        </small>
+
+        <!-- Lowercase Check -->
+        <small
+          class="flex items-center"
+          [class.text-green-600]="hasLowerCase(newPasswordControl?.value)"
+          [class.text-gray-500]="!hasLowerCase(newPasswordControl?.value)"
+        >
+          <i
+            class="fas mr-2"
+            [class.fa-check-circle]="hasLowerCase(newPasswordControl?.value)"
+            [class.fa-circle]="!hasLowerCase(newPasswordControl?.value)"
+          ></i>
+          One lowercase letter
+        </small>
+
+        <!-- Number Check -->
+        <small
+          class="flex items-center"
+          [class.text-green-600]="hasNumber(newPasswordControl?.value)"
+          [class.text-gray-500]="!hasNumber(newPasswordControl?.value)"
+        >
+          <i
+            class="fas mr-2"
+            [class.fa-check-circle]="hasNumber(newPasswordControl?.value)"
+            [class.fa-circle]="!hasNumber(newPasswordControl?.value)"
+          ></i>
+          One number
+        </small>
+
+        <!-- Special Character Check -->
+        <small
+          class="flex items-center"
+          [class.text-green-600]="hasSpecialChar(newPasswordControl?.value)"
+          [class.text-gray-500]="!hasSpecialChar(newPasswordControl?.value)"
+        >
+          <i
+            class="fas mr-2"
+            [class.fa-check-circle]="hasSpecialChar(newPasswordControl?.value)"
+            [class.fa-circle]="!hasSpecialChar(newPasswordControl?.value)"
+          ></i>
+          One special character (&#64;$!%*?&)
+        </small>
+      </div>
+    </div>
+
+    <!-- Confirm Password Field -->
+    <div class="mb-6">
+      <label for="confirmPassword" class="font-medium block text-gray-700 mb-1">
+        Confirm New Password
+      </label>
+      <div class="relative">
+        <input
+          [type]="showConfirmPassword ? 'text' : 'password'"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2 pr-10"
+          required
+        />
+        <button
+          type="button"
+          (click)="showConfirmPassword = !showConfirmPassword"
+          class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+        >
+          <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+        </button>
+      </div>
+      @if (passwordForm.errors?.['passwordMismatch'] && confirmPasswordControl?.touched) {
+      <small class="text-red-700 flex items-center mt-1">
+        <i class="fas fa-exclamation-circle mr-1"></i>
+        Passwords do not match
+      </small>
+      } @else if (confirmPasswordControl?.errors?.['required'] && confirmPasswordControl?.touched) {
+      <small class="text-red-700 flex items-center mt-1">
+        <i class="fas fa-exclamation-circle mr-1"></i>
+        Confirm password is required
+      </small>
+      }
+    </div>
+
+    <!-- Submit Button -->
+    <button
+      type="submit"
+      class="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:bg-indigo-600 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+      [disabled]="!passwordForm.valid || isSubmitting"
+    >
+      @if (isSubmitting) {
+      <i class="fas fa-circle-notch fa-spin mr-2"></i>
+      }
+      {{ isSubmitting ? "Updating..." : "Update Password" }}
+    </button>
+  </form>
+
+  <app-forgetpassword class="ml-4"></app-forgetpassword>
+</div>

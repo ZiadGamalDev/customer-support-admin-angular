@@ -1,0 +1,116 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
+    <h2 class="text-2xl font-bold text-center text-gray-800">Agent Login</h2>
+    <p class="text-center text-gray-500 mb-6">Sign in to your dashboard</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div
+        *ngIf="error"
+        class="mb-4 text-sm text-red-600 bg-red-100 p-2 rounded"
+      >
+        {{ error }}
+      </div>
+
+      <!-- Email Field -->
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700"
+          >Email</label
+        >
+        <input
+          type="email"
+          formControlName="email"
+          required
+          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngClass]="{
+            'border-red-500':
+              loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+          }"
+        />
+        <div
+          class="text-sm text-red-600 mt-1"
+          *ngIf="
+            loginForm.get('email')?.touched && loginForm.get('email')?.invalid
+          "
+        >
+          {{ getEmailErrorMessage() }}
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700"
+          >Password</label
+        >
+        <div class="relative">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            required
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            [ngClass]="{
+              'border-red-500':
+                loginForm.get('password')?.touched &&
+                loginForm.get('password')?.invalid
+            }"
+          />
+          <button
+            type="button"
+            (click)="showPassword = !showPassword"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div
+          class="text-sm text-red-600 mt-1"
+          *ngIf="
+            loginForm.get('password')?.touched &&
+            loginForm.get('password')?.invalid
+          "
+        >
+          <div *ngIf="loginForm.get('password')?.errors?.['required']">
+            Password is required
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="loading || loginForm.invalid"
+        class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+      >
+        <svg
+          *ngIf="loading"
+          class="animate-spin h-5 w-5 mr-2 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v8H4z"
+          ></path>
+        </svg>
+        <span *ngIf="!loading">Login</span>
+      </button>
+
+      <!-- Link to Register -->
+      <p class="mt-4 text-center text-sm text-gray-600">
+        Don't have an account?
+        <a routerLink="/register" class="text-blue-600 hover:underline"
+          >Register now</a
+        >
+      </p>
+    </form>
+  </div>
+</div>

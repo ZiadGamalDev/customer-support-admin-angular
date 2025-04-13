@@ -1,0 +1,201 @@
+#<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <!-- Container Box -->
+  <div class="w-full max-w-md p-8 bg-white rounded-2xl shadow-lg">
+    <h2 class="text-2xl font-bold text-center text-gray-800">
+      Agent Registration
+    </h2>
+    <p class="text-center text-gray-500 mb-6">Create your account</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <!-- Global error -->
+      <div
+        *ngIf="error"
+        class="mb-4 text-sm text-red-600 bg-red-100 p-2 rounded"
+      >
+        {{ error }}
+      </div>
+
+      <!-- Username -->
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700">
+          Username
+        </label>
+        <input
+          type="text"
+          formControlName="name"
+          required
+          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngClass]="{
+            'border-red-500':
+              registerForm.get('name')?.touched &&
+              registerForm.get('name')?.invalid
+          }"
+        />
+        <div
+          class="text-sm text-red-600 mt-1"
+          *ngIf="
+            registerForm.get('name')?.touched &&
+            registerForm.get('name')?.invalid
+          "
+        >
+          {{ getUsernameErrorMessage() }}
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700">
+          Email
+        </label>
+        <input
+          type="email"
+          formControlName="email"
+          required
+          class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngClass]="{
+            'border-red-500': registerForm.get('email')?.touched && registerForm.get('email')?.invalid
+          }"
+        />
+        <div
+          class="text-sm text-red-600 mt-1"
+          *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+        >
+          {{ getEmailErrorMessage() }}
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700"
+          >Password</label
+        >
+        <div class="relative">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            required
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            (click)="showPassword = !showPassword"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+
+        <!-- Password Strength Indicator -->
+        <div class="mt-2">
+          <div class="h-2 w-full bg-gray-200 rounded-full">
+            <div
+              class="h-full rounded-full transition-all duration-300"
+              [style.width.%]="passwordStrength"
+              [ngClass]="{
+                'bg-red-500': passwordStrength <= 40,
+                'bg-yellow-500':
+                  passwordStrength > 40 && passwordStrength <= 80,
+                'bg-green-500': passwordStrength > 80
+              }"
+            ></div>
+          </div>
+
+          <!-- Password Error Messages -->
+          <div
+            class="mt-2 text-sm text-red-600"
+            *ngIf="passwordControl?.touched"
+          >
+            <div *ngIf="passwordControl?.errors?.['required']">
+              Password is required
+            </div>
+            <ng-container
+              *ngIf="passwordControl?.value && passwordControl?.errors"
+            >
+              <div *ngIf="!hasMinLength(passwordControl?.value)">
+                Password must be at least 8 characters
+              </div>
+              <div *ngIf="!hasUpperCase(passwordControl?.value)">
+                Password must contain an uppercase letter
+              </div>
+              <div *ngIf="!hasLowerCase(passwordControl?.value)">
+                Password must contain a lowercase letter
+              </div>
+              <div *ngIf="!hasNumber(passwordControl?.value)">
+                Password must contain a number
+              </div>
+              <div *ngIf="!hasSpecialChar(passwordControl?.value)">
+                Password must contain a special character (&#64;$!%*?&)
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="mb-4">
+        <label class="block mb-1 text-sm font-medium text-gray-700">
+          Confirm Password
+        </label>
+        <div class="relative">
+          <input
+            [type]="showConfirmPassword ? 'text' : 'password'"
+            formControlName="repeat_password"
+            required
+            class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <button
+            type="button"
+            (click)="showConfirmPassword = !showConfirmPassword"
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+          >
+            <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="text-sm text-red-600 mt-1">
+          <div *ngIf="registerForm.get('repeat_password')?.touched && registerForm.get('repeat_password')?.hasError('required')">
+            Confirm password is required
+          </div>
+          <div *ngIf="registerForm.get('repeat_password')?.value && registerForm.hasError('mismatch')">
+            Passwords must match
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        [disabled]="loading || registerForm.invalid"
+        class="w-full py-2 px-4 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+      >
+        <!-- Loading Spinner -->
+        <svg
+          *ngIf="loading"
+          class="animate-spin h-5 w-5 mr-2 text-white"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+        >
+          <circle
+            class="opacity-25"
+            cx="12"
+            cy="12"
+            r="10"
+            stroke="currentColor"
+            stroke-width="4"
+          ></circle>
+          <path
+            class="opacity-75"
+            fill="currentColor"
+            d="M4 12a8 8 0 018-8v8H4z"
+          ></path>
+        </svg>
+        <span *ngIf="!loading">Register</span>
+      </button>
+
+      <p class="mt-4 text-center text-sm text-gray-600">
+        Already have an account?
+        <a routerLink="/" class="text-blue-600 hover:underline">Login now</a>
+      </p>
+    </form>
+  </div>
+</div>

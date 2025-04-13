@@ -1,0 +1,242 @@
+<div
+  class="min-h-screen bg-gradient-to-b from-blue-600 to-indigo-500 text-white p-6 flex flex-col"
+>
+  <div class="flex items-center mb-8">
+    <div class="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+    <div>
+      <p class="text-lg font-semibold">Admin Name</p>
+      <p class="text-sm opacity-75">Admin</p>
+    </div>
+  </div>
+
+  <aside class="flex-1 flex flex-col justify-between">
+    <ul>
+      <!-- Dashboard -->
+      <li class="mb-4">
+        <a
+          routerLink="/dashboard"
+          routerLinkActive="bg-gray-100 text-indigo-500"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center p-3 rounded-lg w-48 hover:text-indigo-500 hover:bg-gray-100 hover:bg-opacity-10 transition cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6 mr-3"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M3 3h8v8H3V3zm10 0h8v5h-8V3zM3 13h5v8H3v-8zm7 0h11v8H10v-8z"
+            />
+          </svg>
+
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <!-- Agents -->
+      <li class="mb-4">
+        <a
+          routerLink="/agents"
+          routerLinkActive="bg-gray-100 text-indigo-500"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center p-3 rounded-lg w-48 hover:text-indigo-500 hover:bg-gray-100 hover:bg-opacity-10 transition cursor-pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+            class="w-6 h-6 mr-3"
+          >
+            <path
+              d="M12 1a9 9 0 0 0-9 9v4a4 4 0 0 0 4 4v-2a2 2 0 0 1-2-2v-4a7 7 0 0 1 14 0v4a2 2 0 0 1-2 2v2a4 4 0 0 0 4-4v-4a9 9 0 0 0-9-9zm-1 15v3a1 1 0 0 0 2 0v-3h-2zm1-9a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"
+            />
+          </svg>
+
+          <span>Agents</span>
+        </a>
+      </li>
+      <!-- Tickets -->
+      <li class="mb-4">
+        <a
+          routerLink="/tickets"
+          routerLinkActive="bg-gray-100 text-indigo-500"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center p-3 rounded-lg w-48 hover:text-indigo-500 hover:bg-gray-100 hover:bg-opacity-10 transition cursor-pointer"
+        >
+          <svg
+            class="w-6 h-6 mr-3 group-hover:text-indigo-500 transition-colors"
+            version="1.1"
+            id="_x32_"
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink"
+            viewBox="0 0 512 512"
+            xml:space="preserve"
+            fill="currentColor"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="1.5"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <style type="text/css">
+                .st0 {
+                  fill: currentColor;
+                }
+              </style>
+              <g>
+                <path
+                  class="st0"
+                  d="M430.337,231.065H81.674c-29.701,0-53.858,24.16-53.858,53.862v49.884v15.976l15.806,2.262 c9.135,1.31,16.03,9.258,16.03,18.483c0,9.225-6.891,17.173-16.022,18.482l-15.814,2.262v15.978v49.892 c0,29.693,24.157,53.854,53.858,53.854h348.663c29.701,0,53.862-24.161,53.862-53.854v-49.558V391l-17.571-0.822 c-9.982-0.463-17.808-8.655-17.808-18.645c0-9.982,7.826-18.174,17.815-18.646l17.564-0.83v-17.58v-49.55 C484.199,255.225,460.038,231.065,430.337,231.065z M465.765,334.477c-19.686,0.936-35.371,17.14-35.371,37.056 c0,19.923,15.685,36.135,35.371,37.055v49.558c0,19.565-15.864,35.428-35.428,35.428H81.674c-19.569,0-35.432-15.863-35.432-35.428 v-49.892c17.991-2.579,31.836-18.011,31.836-36.722c0-18.703-13.846-34.135-31.836-36.721v-49.884 c0-19.573,15.863-35.436,35.432-35.436h348.663c19.564,0,35.428,15.863,35.428,35.436V334.477z"
+                ></path>
+                <rect
+                  x="133.621"
+                  y="439.419"
+                  class="st0"
+                  width="12.19"
+                  height="31.8"
+                ></rect>
+                <rect
+                  x="133.621"
+                  y="383.564"
+                  class="st0"
+                  width="12.19"
+                  height="31.792"
+                ></rect>
+                <rect
+                  x="133.621"
+                  y="327.7"
+                  class="st0"
+                  width="12.19"
+                  height="31.8"
+                ></rect>
+                <rect
+                  x="133.621"
+                  y="271.846"
+                  class="st0"
+                  width="12.19"
+                  height="31.799"
+                ></rect>
+                <polygon
+                  class="st0"
+                  points="111.245,180.758 100.592,186.68 116.053,214.461 126.702,208.539 "
+                ></polygon>
+                <path
+                  class="st0"
+                  d="M497.524,179.025l-24.095-43.311l-8.558-15.36l-15.749,7.826c-8.948,4.442-19.768,1.09-24.617-7.639 c-4.865-8.721-2.001-19.687,6.492-24.95l14.952-9.266l-8.558-15.368l-24.088-43.294C398.863,1.714,366.006-7.658,340.047,6.79 L35.374,176.299c-25.955,14.44-35.318,47.305-20.878,73.256l0.875,1.578c3.27-6.394,7.43-12.243,12.324-17.409 c-4.803-15.643,1.762-33.044,16.636-41.326l304.681-169.51c17.1-9.518,38.674-3.368,48.192,13.732l24.088,43.302 c-16.751,10.38-22.575,32.182-12.895,49.582c9.681,17.401,31.271,23.942,48.925,15.172l24.095,43.312 c7.273,13.056,5.337,28.692-3.571,39.601c4.776,3.961,8.989,8.558,12.65,13.569C505.4,224.524,508.979,199.615,497.524,179.025z"
+                ></path>
+              </g>
+            </g>
+          </svg>
+          <span>Tickets</span>
+        </a>
+      </li>
+      <!-- Settings -->
+      <li class="mb-4">
+        <a
+          routerLink="/profile"
+          routerLinkActive="bg-gray-100 text-indigo-500"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="flex items-center p-3 rounded-lg w-48 hover:text-indigo-500 hover:bg-gray-100 hover:bg-opacity-10 transition cursor-pointer"
+        >
+          <svg
+            class="h-6 w-6 mr-3 group-hover:text-indigo-500 transition-colors"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <circle
+                cx="12"
+                cy="12"
+                r="3"
+                stroke="currentColor"
+                stroke-width="1.5"
+              ></circle>
+              <path
+                d="M13.7654 2.15224C13.3978 2 12.9319 2 12 2C11.0681 2 10.6022 2 10.2346 2.15224C9.74457 2.35523 9.35522 2.74458 9.15223 3.23463C9.05957 3.45834 9.0233 3.7185 9.00911 4.09799C8.98826 4.65568 8.70226 5.17189 8.21894 5.45093C7.73564 5.72996 7.14559 5.71954 6.65219 5.45876C6.31645 5.2813 6.07301 5.18262 5.83294 5.15102C5.30704 5.08178 4.77518 5.22429 4.35436 5.5472C4.03874 5.78938 3.80577 6.1929 3.33983 6.99993C2.87389 7.80697 2.64092 8.21048 2.58899 8.60491C2.51976 9.1308 2.66227 9.66266 2.98518 10.0835C3.13256 10.2756 3.3397 10.437 3.66119 10.639C4.1338 10.936 4.43789 11.4419 4.43786 12C4.43783 12.5581 4.13375 13.0639 3.66118 13.3608C3.33965 13.5629 3.13248 13.7244 2.98508 13.9165C2.66217 14.3373 2.51966 14.8691 2.5889 15.395C2.64082 15.7894 2.87379 16.193 3.33973 17C3.80568 17.807 4.03865 18.2106 4.35426 18.4527C4.77508 18.7756 5.30694 18.9181 5.83284 18.8489C6.07289 18.8173 6.31632 18.7186 6.65204 18.5412C7.14547 18.2804 7.73556 18.27 8.2189 18.549C8.70224 18.8281 8.98826 19.3443 9.00911 19.9021C9.02331 20.2815 9.05957 20.5417 9.15223 20.7654C9.35522 21.2554 9.74457 21.6448 10.2346 21.8478C10.6022 22 11.0681 22 12 22C12.9319 22 13.3978 22 13.7654 21.8478C14.2554 21.6448 14.6448 21.2554 14.8477 20.7654C14.9404 20.5417 14.9767 20.2815 14.9909 19.902C15.0117 19.3443 15.2977 18.8281 15.781 18.549C16.2643 18.2699 16.8544 18.2804 17.3479 18.5412C17.6836 18.7186 17.927 18.8172 18.167 18.8488C18.6929 18.9181 19.2248 18.7756 19.6456 18.4527C19.9612 18.2105 20.1942 17.807 20.6601 16.9999C21.1261 16.1929 21.3591 15.7894 21.411 15.395C21.4802 14.8691 21.3377 14.3372 21.0148 13.9164C20.8674 13.7243 20.6602 13.5628 20.3387 13.3608C19.8662 13.0639 19.5621 12.558 19.5621 11.9999C19.5621 11.4418 19.8662 10.9361 20.3387 10.6392C20.6603 10.4371 20.8675 10.2757 21.0149 10.0835C21.3378 9.66273 21.4803 9.13087 21.4111 8.60497C21.3592 8.21055 21.1262 7.80703 20.6602 7C20.1943 6.19297 19.9613 5.78945 19.6457 5.54727C19.2249 5.22436 18.693 5.08185 18.1671 5.15109C17.9271 5.18269 17.6837 5.28136 17.3479 5.4588C16.8545 5.71959 16.2644 5.73002 15.7811 5.45096C15.2977 5.17191 15.0117 4.65566 14.9909 4.09794C14.9767 3.71848 14.9404 3.45833 14.8477 3.23463C14.6448 2.74458 14.2554 2.35523 13.7654 2.15224Z"
+                stroke="currentColor"
+                stroke-width="1.5"
+              ></path>
+            </g>
+          </svg>
+          <span>Settings</span>
+        </a>
+      </li>
+
+      <li>
+        <div class="mb-6 ml-3">
+          <label
+            for="agent-status"
+            class="block text-sm font-medium text-white mb-2"
+          >
+            Agent Status
+          </label>
+          <select
+            id="agent-status"
+            [(ngModel)]="agentStatus"
+            (change)="handleChangeAgentStatus(agentStatus)"
+            class="w-full px-4 py-2 rounded-xl border border-white text-sm text-indigo-900 bg-white shadow focus:ring-2 focus:ring-indigo-400 focus:outline-none transition-all duration-200"
+          >
+            <option value="away">Away</option>
+            <option value="busy">Busy</option>
+            <option value="available">Available</option>
+          </select>
+        </div>
+      </li>
+    </ul>
+
+    <!-- LogOut -->
+    <span>
+      <button
+        class="flex items-center p-3 rounded-lg w-48 hover:text-indigo-500 hover:bg-gray-100 hover:bg-opacity-10 transition cursor-pointer"
+        (click)="logout()"
+      >
+        <svg
+          class="h-6 w-6 mr-3"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M21 12L13 12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+            <path
+              d="M18 15L20.913 12.087V12.087C20.961 12.039 20.961 11.961 20.913 11.913V11.913L18 9"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+            <path
+              d="M16 5V4.5V4.5C16 3.67157 15.3284 3 14.5 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H14.5C15.3284 21 16 20.3284 16 19.5V19.5V19"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </g>
+        </svg>
+        Logout
+      </button>
+    </span>
+  </aside>
+</div>

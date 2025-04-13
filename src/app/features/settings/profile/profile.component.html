@@ -1,0 +1,63 @@
+<div class="ml-4 mb-8 bg-white border border-gray-200 rounded-xl shadow p-6">
+  @if (isLoading) {
+  <div class="flex justify-center items-center h-40">
+    <div
+      class="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-500"
+    ></div>
+  </div>
+  } @else if (error) {
+  <div class="text-red-600 p-4 text-center">
+    {{ error }}
+    <button
+      (click)="retryLoading()"
+      class="mt-2 text-indigo-600 hover:text-indigo-800"
+    >
+      Retry
+    </button>
+  </div>
+  } @else {
+  <div class="flex items-center mb-6">
+    <h2 class="text-xl font-semibold text-gray-800 ml-2">Profile</h2>
+    <span
+      class="ml-3 px-3 py-1 text-sm rounded-full capitalize"
+      [ngClass]="{
+        'bg-green-100 text-green-800': status === 'available',
+        'bg-yellow-100 text-yellow-800': status === 'away',
+        'bg-red-100 text-red-800': status === 'busy'
+      }"
+    >
+      {{ status }}
+    </span>
+  </div>
+
+  <div class="pl-9">
+    <div class="flex flex-col sm:flex-row items-start mb-6">
+      <img
+        [src]="profileImage || defaultImage"
+        (error)="handleImageError($event)"
+        alt="Profile"
+        class="rounded-full w-20 h-20 object-cover mr-4 mb-4 sm:mb-0"
+      />
+
+      <div class="space-y-4 w-full">
+        <div>
+          <h3 class="text-lg font-semibold text-gray-700">{{ name }}</h3>
+          <p class="text-gray-500">{{ email }}</p>
+        </div>
+
+        <div class="grid grid-row-1 md:grid-row-2 gap-4">
+          <div class="space-y-2">
+            <p class="text-sm text-gray-500">Phone</p>
+            <p class="text-gray-700">{{ phone }}</p>
+          </div>
+
+          <div class="space-y-2">
+            <p class="text-sm text-gray-500">Email Verified</p>
+            <p class="text-gray-700">{{ emailVerifiedAt | date : "medium" }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+</div>

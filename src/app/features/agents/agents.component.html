@@ -1,5 +1,306 @@
-<div class="flex bg-gray-50">
-  <div class="flex-1 min-h-screen">
-    <p>agents works!</p>
+<div class="p-6 bg-gray-50 min-h-screen pt-10">
+  <!-- Header -->
+  <div class="mb-4">
+    <h1 class="text-3xl font-bold text-gray-900">Agents</h1>
+    <p class="text-gray-600">Manage and view all support agents</p>
+  </div>
+
+  <!-- Table Container -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <!-- Table Header -->
+    <div
+      class="p-4 flex flex-col md:flex-row md:items-center md:justify-between"
+    >
+      <h2 class="text-lg font-semibold mb-3 md:mb-0">All Agents</h2>
+      <div class="flex flex-col md:flex-row gap-2">
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Search agents..."
+            [(ngModel)]="searchQuery"
+            (input)="searchUsers()"
+            class="pl-10 pr-4 py-2 border border-gray-300 rounded-md w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 absolute left-3 top-2.5 text-gray-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+        </div>
+        <select
+          class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700"
+        >
+          <option class="bg-white hover:bg-blue-100">All Status</option>
+          <option class="bg-white hover:bg-green-100">Active</option>
+          <option class="bg-white hover:bg-red-100">Offline</option>
+          <option class="bg-white hover:bg-yellow-100">Away</option>
+        </select>
+        <button
+          class="p-2 bg-sky-800 text-white rounded hover:opacity-85 duration-200 transition-all cursor-pointer"
+        >
+          Add Agent
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading & Error -->
+    <div *ngIf="loading" class="p-4 text-center text-gray-500 flex items-center justify-center gap-3">
+      Loading agents...
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-blue-600 mb-2"></div>
+    </div>
+    <div *ngIf="error" class="p-4 text-center text-red-500">
+      {{ error }}
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto" *ngIf="!loading && !error">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-200 bg-gray-50 text-left">
+            <th class="px-4 py-3 text-sm font-medium text-gray-500">ID</th>
+            <th class="px-4 py-3 text-sm font-medium text-gray-500">Name</th>
+            <th class="px-4 py-3 text-sm font-medium text-gray-500">Status</th>
+            <th class="px-4 py-3 text-sm font-medium text-gray-500">
+              Department
+            </th>
+            <th class="px-4 py-3 text-sm font-medium text-gray-500">
+              Last Active
+            </th>
+            <th class="px-4 py-3 text-sm font-medium text-gray-500 text-center">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let user of paginatedUsers"
+            class="border-b border-gray-200 hover:bg-gray-50"
+          >
+            <td class="px-4 py-4 text-sm text-gray-900">{{ user.id }}</td>
+            <td class="px-4 py-4">
+              <div class="flex items-center">
+                <div
+                  class="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold mr-3"
+                >
+                  {{ user.name.charAt(0) }}
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-900">
+                    {{ user.name }}
+                  </p>
+                  <p class="text-xs text-gray-500">{{ user.email }}</p>
+                </div>
+              </div>
+            </td>
+            <td class="px-4 py-4">
+              <span
+                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                [ngClass]="{
+                  'bg-green-100 text-green-800': user.status === 'available',
+                  'bg-yellow-100 text-yellow-800': user.status === 'busy',
+                  'bg-red-100 text-red-800': user.status === 'away'
+                }"
+              >
+                {{ user.status | titlecase }}
+              </span>
+            </td>
+            <td class="px-4 py-4 text-sm text-gray-900">
+              {{ user.role | titlecase }}
+            </td>
+            <td class="px-4 py-4 text-sm text-gray-500">
+              {{ user.updatedAt | date : "short" }}
+            </td>
+            <td class="px-4 py-4 flex gap-2">
+              <button
+                (click)="openDeleteModal(user.id)"
+                class="text-gray-500 flex items-center p-2 hover:bg-red-600 rounded hover:text-white duration-200 cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5-4h4M9 7v12m6-12v12"
+                  />
+                </svg>
+                Delete
+              </button>
+              <button
+                class="text-gray-500 flex items-center p-2 hover:bg-emerald-900 rounded hover:text-white duration-200 cursor-pointer"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-5 w-5 mr-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+                Approve
+              </button>
+            </td>
+          </tr>
+          <tr *ngIf="paginatedUsers.length === 0">
+            <td colspan="7" class="px-4 py-4 text-center text-gray-500">
+              No agents found
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div
+      *ngIf="showDeleteModal"
+      class="fixed inset-0 flex items-start justify-center z-50 mt-40"
+    >
+      <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">
+          Confirm Deletion
+        </h2>
+        <p class="text-gray-600 mb-6">
+          Are you sure you want to delete this user? This action cannot be
+          undone.
+        </p>
+        <div class="flex justify-end space-x-3">
+          <button
+            (click)="closeDeleteModal()"
+            class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300 duration-200 cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            (click)="confirmDelete()"
+            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 duration-200 cursor-pointer"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div
+      class="px-4 py-3 flex items-center justify-between border-t border-gray-200"
+      *ngIf="!loading && !error && filteredUsers.length > 0"
+    >
+      <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+        <div>
+          <p class="text-sm text-gray-700">
+            Showing
+            <span class="font-medium">{{
+              (currentPage - 1) * pageSize + 1
+            }}</span>
+            to
+            <span class="font-medium">
+              {{
+                currentPage * pageSize > filteredUsers.length
+                  ? filteredUsers.length
+                  : currentPage * pageSize
+              }}
+            </span>
+            of
+            <span class="font-medium">{{ filteredUsers.length }}</span>
+            agents
+          </p>
+        </div>
+        <div>
+          <nav
+            class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+            aria-label="Pagination"
+          >
+            <button
+              (click)="changePage(currentPage - 1)"
+              [disabled]="currentPage === 1"
+              class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 cursor-pointer"
+            >
+              <span class="sr-only">Previous</span>
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+            <button
+              *ngFor="let page of getPages()"
+              (click)="changePage(page)"
+              class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium"
+              [ngClass]="{
+                'bg-blue-50 text-blue-600 hover:bg-blue-100  cursor-pointer':
+                  page === currentPage,
+                'bg-white text-gray-700 hover:bg-gray-50': page !== currentPage
+              }"
+            >
+              {{ page }}
+            </button>
+            <button
+              (click)="changePage(currentPage + 1)"
+              [disabled]="currentPage === totalPages"
+              class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 cursor-pointer"
+            >
+              <span class="sr-only">Next</span>
+              <svg
+                class="h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"
+                />
+              </svg>
+            </button>
+          </nav>
+        </div>
+      </div>
+      <div class="flex items-center space-x-3 sm:hidden">
+        <button
+          (click)="changePage(currentPage - 1)"
+          [disabled]="currentPage === 1"
+          class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 cursor-pointer"
+        >
+          Previous
+        </button>
+        <button
+          (click)="changePage(currentPage + 1)"
+          [disabled]="currentPage === totalPages"
+          class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 cursor-pointer"
+        >
+          Next
+        </button>
+      </div>
+    </div>
   </div>
 </div>

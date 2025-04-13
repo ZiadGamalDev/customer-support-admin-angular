@@ -70,12 +70,15 @@ export class AuthService {
    *  ------------------------------------------------------------------ */
   login(email: string, password: string): Observable<void> {
     return this.http
-      .post<{ token: string }>(`${this.apiBaseUrl}/auth/login`, {
+      .post<{ token: string; user: any }>(`${this.apiBaseUrl}/auth/login`, {
         email,
         password,
       })
       .pipe(
-        tap((res) => this.setToken(res.token)),
+        tap((res) => {
+          this.setToken(res.token);
+          localStorage.setItem('role', res.user.role);
+        }),
         map(() => void 0),
         catchError(this.handleError)
       );

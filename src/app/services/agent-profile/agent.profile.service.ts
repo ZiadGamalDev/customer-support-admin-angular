@@ -11,7 +11,7 @@ import { catchError, Observable, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class AgentProfileService {
-  private apiURL = 'http://localhost:3000/profile'; // Add http:// protocol
+  private apiURL = 'http://localhost:3000/profile';
 
   constructor(private _http: HttpClient) {}
 

@@ -24,6 +24,7 @@ export class AgentsComponent {
   totalPages = 1;
   showDeleteModal = false;
   userToDelete: string | null = null;
+  selectedStatus: string = 'all';
 
   constructor(
     private userService: UsersService,
@@ -39,8 +40,11 @@ export class AgentsComponent {
     this.userService.getAllUsers().subscribe({
       next: (res) => {
         this.users = res;
+        console.log(res);
+        
         this.filteredUsers = res;
-        this.updatePagination();
+        // this.updatePagination();
+        this.applyFilters();
         this.loading = false;
       },
       error: (err) => {
@@ -57,19 +61,36 @@ export class AgentsComponent {
     this.currentPage = Math.min(this.currentPage, this.totalPages || 1);
   }
 
-  searchUsers(): void {
-    if (!this.searchQuery.trim()) {
-      this.filteredUsers = this.users;
-    } else {
+  applyFilters(): void {
+    let tempUsers = this.users;
+
+    if (this.searchQuery.trim()) {
       const query = this.searchQuery.toLowerCase().trim();
-      this.filteredUsers = this.users.filter(
+      tempUsers = tempUsers.filter(
         (user) =>
           user.name.toLowerCase().includes(query) ||
           user.email.toLowerCase().includes(query)
       );
     }
-    this.currentPage = 1;
+
+    if (this.selectedStatus !== 'all') {
+      tempUsers = tempUsers.filter(
+        (user) => user.status.toLowerCase() === this.selectedStatus.toLowerCase()
+      );
+    }
+
+    this.filteredUsers = tempUsers;
     this.updatePagination();
+  }
+
+  searchUsers(): void {
+    this.currentPage = 1;
+    this.applyFilters();
+  }
+
+  filterByStatus(): void {
+    this.currentPage = 1;
+    this.applyFilters();
   }
 
   changePage(page: number): void {
@@ -113,6 +134,7 @@ export class AgentsComponent {
           this.updatePagination();
           this.loading = false;
           this.closeDeleteModal();
+          this.toastr.success('User Deleted Successfully', 'Success');
         },
         error: (err) => {
           this.error = 'Failed to delete user';
@@ -122,5 +144,19 @@ export class AgentsComponent {
         },
       });
     }
+  }
+
+  approveUser(email: string) {
+    this.userService.approveUser(email).subscribe({
+      next: (res) => {
+        console.log('User approved successfully!', res);
+        this.toastr.success('User approved successfully!', 'Success');
+        this.fetchUsers();
+      }, 
+      error: (err) => {
+        console.error('Error approving user', err);
+        this.toastr.error('Error approving user', 'Error');
+      }
+    });
   }
 }

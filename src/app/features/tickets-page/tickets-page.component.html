@@ -1,4 +1,13 @@
-<div class="flex bg-gray-50">
+<div class="flex  bg-gray-50">
   <!-- <app-agent-sidebar></app-agent-sidebar> -->
-  <app-tickets-table class="flex-1 h-[100%]"></app-tickets-table>
+  <app-tickets-table #ticketsTable class="flex-1 h-[100%]" (selectTicket)="selectedTicket=$event"></app-tickets-table>
+
+  @if (selectedTicket) {
+    <app-edit-ticket-form 
+      [ticket]="selectedTicket"
+      (close)="clearSelectedTicket()"
+      (ticketUpdated)="ticketsTable.updateTicketInTable($event)"
+    ></app-edit-ticket-form>
+  }
+
 </div>

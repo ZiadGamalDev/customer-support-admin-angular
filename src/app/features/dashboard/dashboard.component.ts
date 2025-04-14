@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { AgentSidebarComponent } from '../sidebar/agent-sidebar/agent-sidebar.component';
+import { AgentProfileService } from '../../services/agent-profile/agent.profile.service';
+
 
 interface Ticket {
   id: number;
@@ -12,11 +13,13 @@ interface Ticket {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [AgentSidebarComponent],
+  imports: [],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
+  adminName: string = '';
+
   tickets: Ticket[] = [
     {
       id: 1,
@@ -46,10 +49,26 @@ export class DashboardComponent {
 
   activeTab: 'recent' | 'priority' = 'recent';
 
-  constructor() {}
+  constructor(private agentProfileService:AgentProfileService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadAdminProfile()
+  }
 
+private loadAdminProfile():void{
+  const userAccessToken = localStorage.getItem('token') ?? '';
+  this.agentProfileService.getProfile(userAccessToken).pipe().subscribe({
+   
+    next: (profile) => {
+      // Handle the profile data here
+      console.log('Profile loaded:', profile);
+      this.adminName=profile.name
+    },
+    error: (error) => {
+      console.error('Error loading profile:', error);
+    }
+  });
+}
   switchTab(tab: 'recent' | 'priority'): void {
     this.activeTab = tab;
   }

@@ -104,7 +104,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
     const validDomains = [
       'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com',
-      'icloud.com', 'aol.com', 'protonmail.com'
+      'icloud.com', 'aol.com', 'protonmail.com','customer-support.com',
     ];
     const domain = value.split('@')[1]?.toLowerCase();
     if (!domain || !validDomains.some(validDomain => domain === validDomain)) {

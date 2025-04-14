@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
 import { AuthService } from './../../../core/auth.service';
-// import { AgentStatusService } from '../../../services/agent-status/agent-status.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({

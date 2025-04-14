@@ -3,17 +3,18 @@ import { AgentSidebarComponent } from '../sidebar/agent-sidebar/agent-sidebar.co
 import { CommonModule } from '@angular/common';
 import { User } from '../../interfaces/user.interface';
 import { UsersService } from '../../services/users/users.service';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-agents',
   standalone: true,
-  imports: [AgentSidebarComponent, CommonModule, FormsModule, ToastrModule],
+  imports: [AgentSidebarComponent, CommonModule, ReactiveFormsModule, FormsModule, ToastrModule],
   templateUrl: './agents.component.html',
   styleUrl: './agents.component.css',
 })
 export class AgentsComponent {
+  agentForm: FormGroup;
   users: User[] = [];
   filteredUsers: User[] = [];
   loading = false;
@@ -37,8 +38,23 @@ export class AgentsComponent {
 
   constructor(
     private userService: UsersService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    private fb: FormBuilder,
+  ) {this.agentForm = this.fb.group(
+    {
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmedPassword: ['', [Validators.required]],
+    },
+    { validators: this.passwordMatchValidator }
+  );}
+
+  passwordMatchValidator(form: FormGroup) {
+    const password = form.get('password')?.value;
+    const confirmedPassword = form.get('confirmedPassword')?.value;
+    return password === confirmedPassword ? null : { mismatch: true };
+  }
 
   ngOnInit(): void {
     this.fetchUsers();
@@ -178,30 +194,43 @@ export class AgentsComponent {
     this.isClosing = true;
     setTimeout(() => {
       this.showModal = false;
+      this.isClosing = false;
+      this.agentForm.reset();
     }, 300);
   }
 
   submitAgent() {
-    if (
-      this.agent.name &&
-      this.agent.email &&
-      this.agent.password &&
-      this.agent.password === this.agent.confirmedPassword
-    ) {
-      this.userService.addAgent(this.agent).subscribe(
-        (res) => {
+    if (this.agentForm.valid) {
+      const agentData = {
+        name: this.agentForm.get('name')?.value,
+        email: this.agentForm.get('email')?.value,
+        password: this.agentForm.get('password')?.value,
+      };
+
+      this.userService.addAgent(agentData).subscribe({
+        next: (res) => {
           console.log('Agent added successfully:', res);
           this.toastr.success('Agent added successfully!', 'Success');
           this.closeModal();
         },
-        (err) => {
+        error: (err) => {
           console.error('Error adding agent:', err);
           this.toastr.error('Error adding agent', 'Error');
-        }
-      );
+        },
+      });
     } else {
       this.toastr.warning('Please fill all fields correctly.', 'Error');
+      this.markFormGroupTouched(this.agentForm);
     }
+  }
+
+  markFormGroupTouched(formGroup: FormGroup) {
+    Object.values(formGroup.controls).forEach((control) => {
+      control.markAsTouched();
+      if (control instanceof FormGroup) {
+        this.markFormGroupTouched(control);
+      }
+    });
   }
 
   resetForm() {

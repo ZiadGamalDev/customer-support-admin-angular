@@ -71,4 +71,17 @@ export class UsersService {
 
     return this.http.put(`${this.baseUrl}/approve`, body, { headers } );
   }
+
+  addAgent(agentData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.post(`${this.baseUrl}/admin/users/add`, agentData, {
+      headers,
+    });
+  }
 }

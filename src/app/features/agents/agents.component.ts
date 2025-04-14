@@ -17,6 +17,8 @@ export class AgentsComponent {
   users: User[] = [];
   filteredUsers: User[] = [];
   loading = false;
+  showModal = false;
+  isClosing = false;
   error = '';
   searchQuery = '';
   currentPage = 1;
@@ -25,6 +27,13 @@ export class AgentsComponent {
   showDeleteModal = false;
   userToDelete: string | null = null;
   selectedStatus: string = 'all';
+
+  agent = {
+    name: '',
+    email: '',
+    password: '',
+    confirmedPassword: '',
+  };
 
   constructor(
     private userService: UsersService,
@@ -158,5 +167,49 @@ export class AgentsComponent {
         this.toastr.error('Error approving user', 'Error');
       }
     });
+  }
+
+  openModal() {
+    this.showModal = true;
+    this.isClosing = false;
+  }
+
+  closeModal() {
+    this.isClosing = true;
+    setTimeout(() => {
+      this.showModal = false;
+    }, 300);
+  }
+
+  submitAgent() {
+    if (
+      this.agent.name &&
+      this.agent.email &&
+      this.agent.password &&
+      this.agent.password === this.agent.confirmedPassword
+    ) {
+      this.userService.addAgent(this.agent).subscribe(
+        (res) => {
+          console.log('Agent added successfully:', res);
+          this.toastr.success('Agent added successfully!', 'Success');
+          this.closeModal();
+        },
+        (err) => {
+          console.error('Error adding agent:', err);
+          this.toastr.error('Error adding agent', 'Error');
+        }
+      );
+    } else {
+      this.toastr.warning('Please fill all fields correctly.', 'Error');
+    }
+  }
+
+  resetForm() {
+    this.agent = {
+      name: '',
+      email: '',
+      password: '',
+      confirmedPassword: '',
+    };
   }
 }

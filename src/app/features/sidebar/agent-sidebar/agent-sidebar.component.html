@@ -1,7 +1,8 @@
 <!-- Toggle Button for Small Screens -->
 <button
-  class="sm:hidden fixed top-2 left-4 z-50 p-2 bg-indigo-600 text-white rounded cursor-pointer hover:bg-indigo-700 transition duration-200"
+  class="sm:hidden fixed top-2 left-6 z-[500] p-2 bg-indigo-600 text-white rounded cursor-pointer hover:bg-indigo-700 transition duration-200"
   (click)="toggleSidebar()"
+  aria-label="Toggle Sidebar"
 >
   <svg
     class="w-4 h-4"
@@ -24,12 +25,13 @@
   [ngClass]="{
     'hidden': !isSidebarOpen,
     'block': isSidebarOpen,
+    'sm:translate-x-0': true,
     'sm:block': true,
   }"
-  class="sm:flex sticky top-0 left-0 sm:z-50 h-[100vh] bg-gradient-to-b from-blue-600 to-indigo-500 text-white p-6 flex flex-col w-[250px]"
+  class="sm:flex z-[400] sticky top-0 left-0 h-[100vh] bg-gradient-to-b from-blue-600 to-indigo-500 text-white p-6 flex flex-col w-[250px] sm:w-full transition-transform duration-300 ease-in-out"
 >
   <div class="flex items-center mb-8">
-    <div>
+    <div class="mt-5">
       <p class="text-lg font-semibold">Admin Name</p>
       <p class="text-sm opacity-75">Admin</p>
     </div>

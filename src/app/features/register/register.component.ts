@@ -117,6 +117,7 @@ export class RegisterComponent implements OnInit {
       'icloud.com',
       'aol.com',
       'protonmail.com',
+      'customer-support.com',
     ];
 
     const domain = value.split('@')[1]?.toLowerCase();

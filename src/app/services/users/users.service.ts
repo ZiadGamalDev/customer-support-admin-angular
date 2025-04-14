@@ -64,12 +64,12 @@ export class UsersService {
 
     const token = localStorage.getItem('token');
     console.log('Token:', token);
-    
+
     const headers = {
       Authorization: `Bearer ${token}`,
     };
 
-    return this.http.put(`${this.baseUrl}/approve`, body, { headers } );
+    return this.http.put(`${this.baseUrl}/approve`, body, { headers });
   }
 
   addAgent(agentData: any): Observable<any> {
@@ -80,8 +80,29 @@ export class UsersService {
       'Content-Type': 'application/json',
     });
 
-    return this.http.post(`${this.baseUrl}/admin/users/add`, agentData, {
+    return this.http.post(`${this.baseUrl}`, agentData, {
       headers,
     });
+  }
+
+  editAgent(userId: string, agentData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.put(`${this.baseUrl}/${userId}`, agentData, {
+      headers,
+    });
+  }
+
+  getAgent(userId: string): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get(`${this.baseUrl}/${userId}`, { headers });
   }
 }

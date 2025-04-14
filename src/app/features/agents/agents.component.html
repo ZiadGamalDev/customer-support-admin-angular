@@ -37,12 +37,20 @@
           </svg>
         </div>
         <select
+          [(ngModel)]="selectedStatus"
+          (ngModelChange)="filterByStatus()"
           class="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700"
         >
-          <option class="bg-white hover:bg-blue-100">All Status</option>
-          <option class="bg-white hover:bg-green-100">Active</option>
-          <option class="bg-white hover:bg-red-100">Offline</option>
-          <option class="bg-white hover:bg-yellow-100">Away</option>
+          <option value="all" class="bg-white hover:bg-blue-100">
+            All Status
+          </option>
+          <option value="available" class="bg-white hover:bg-green-100">
+            Available
+          </option>
+          <option value="busy" class="bg-white hover:bg-red-100">Busy</option>
+          <option value="away" class="bg-white hover:bg-yellow-100">
+            Away
+          </option>
         </select>
         <button
           class="p-2 bg-sky-800 text-white rounded hover:opacity-85 duration-200 transition-all cursor-pointer"
@@ -53,9 +61,14 @@
     </div>
 
     <!-- Loading & Error -->
-    <div *ngIf="loading" class="p-4 text-center text-gray-500 flex items-center justify-center gap-3">
+    <div
+      *ngIf="loading"
+      class="p-4 text-center text-gray-500 flex items-center justify-center gap-3"
+    >
       Loading agents...
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-blue-600 mb-2"></div>
+      <div
+        class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-blue-600 mb-2"
+      ></div>
     </div>
     <div *ngIf="error" class="p-4 text-center text-red-500">
       {{ error }}
@@ -141,6 +154,8 @@
                 Delete
               </button>
               <button
+                *ngIf="user.role === 'user'"
+                (click)="approveUser(user.email)"
                 class="text-gray-500 flex items-center p-2 hover:bg-emerald-900 rounded hover:text-white duration-200 cursor-pointer"
               >
                 <svg

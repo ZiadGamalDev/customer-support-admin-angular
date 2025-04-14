@@ -58,4 +58,17 @@ export class UsersService {
       })
     );
   }
+
+  approveUser(email: string): Observable<any> {
+    const body = { email };
+
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
+    
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    return this.http.put(`${this.baseUrl}/approve`, body, { headers } );
+  }
 }

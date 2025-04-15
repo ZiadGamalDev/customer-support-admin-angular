@@ -10,7 +10,10 @@
         <form action="" class="relative bg-gray-100 ">
           <input
             type="text"
-            placeholder="Search by name"
+            name="search"
+            [ngModel]="searchQuery"
+            (ngModelChange)="searchTickets($event)"
+            placeholder="Search by Title"
             class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 w-64"
           />
           <svg
@@ -42,11 +45,18 @@
         <div class="flex justify-center items-center h-64">
           <p class="text-red-500">{{ error }}</p>
         </div>
-        } @else{
-        <table class="divide-y divide-gray-200 w-[100%]">
-          @if (tickets.length === 0) {
+        }@else if (filteredTickets.length === 0) {
           <div class="flex justify-center items-center h-64">
-            <p class="text-gray-500">No tickets available.</p>
+            <p class="text-gray-500 text-center">
+              {{ searchQuery ? 'No matching tickets found.' : 'No tickets available.' }}
+            </p>
+          </div>
+        }
+         @else{
+        <table class="w-full min-w-full divide-y divide-gray-200">
+          @if (filteredTickets.length === 0) {
+          <div class="flex justify-center items-center h-64">
+            <p class="text-gray-500 text-center">{{ searchQuery ? 'No matching tickets found.' : 'No tickets available.' }}</p>
           </div>
           }
           <thead>

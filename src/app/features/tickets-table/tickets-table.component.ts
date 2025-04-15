@@ -26,7 +26,8 @@ export class TicketsTableComponent implements OnInit {
   isLoading: boolean = false;
   error: string | null = null;
   selectedTicket: Ticket | null = null;
-
+  searchQuery: string = '';
+  filteredTickets: Ticket[] = [];
   constructor(
     private tktService: TktServiceService,
     private toastr: ToastrService
@@ -42,12 +43,12 @@ export class TicketsTableComponent implements OnInit {
     const token = localStorage.getItem('token') || '';
     this.tktService.getTickets(token).subscribe({
       next: (response: Ticket[]) => {
-        console.log(response);
-
         this.tickets = response.map((ticket) => ({
           ...ticket,
           isLoading: false,
         }));
+        
+        this.filteredTickets = [...this.tickets];
         this.isLoading = false;
       },
       error: (error) => {
@@ -55,6 +56,19 @@ export class TicketsTableComponent implements OnInit {
         this.isLoading = false;
       },
     });
+  }
+
+  searchTickets(query: string) {
+    this.searchQuery = query;
+    if(!query.trim){
+      this.filteredTickets = [...this.tickets];
+      return;
+    }
+   
+      this.filteredTickets = this.tickets.filter((ticket) =>
+        ticket.title?.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
+   
   }
 
   updateTicketInTable(updatedTicket: Ticket) {

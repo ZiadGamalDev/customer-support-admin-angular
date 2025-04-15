@@ -43,7 +43,11 @@ export class TicketsTableComponent implements OnInit {
     const token = localStorage.getItem('token') || '';
     this.tktService.getTickets(token).subscribe({
       next: (response: Ticket[]) => {
-        this.tickets = response.map((ticket) => ({ ...ticket, isLoading: false }));
+        this.tickets = response.map((ticket) => ({
+          ...ticket,
+          isLoading: false,
+        }));
+        
         this.filteredTickets = [...this.tickets];
         this.isLoading = false;
       },
@@ -53,6 +57,7 @@ export class TicketsTableComponent implements OnInit {
       },
     });
   }
+
   searchTickets(query: string) {
     this.searchQuery = query;
     if(!query.trim){
@@ -65,9 +70,12 @@ export class TicketsTableComponent implements OnInit {
       );
    
   }
+
   updateTicketInTable(updatedTicket: Ticket) {
     this.tickets = this.tickets.map((ticket) =>
-      ticket.id === updatedTicket.id ? { ...updatedTicket, isLoading: false } : ticket
+      ticket.id === updatedTicket.id
+        ? { ...updatedTicket, isLoading: false }
+        : ticket
     );
     this.selectedTicket = null;
   }
@@ -91,9 +99,28 @@ export class TicketsTableComponent implements OnInit {
         this.updateTicketInTable(updatedTicket);
       },
       error: (err) => {
-        const errorMessage = err.error?.message || 'Error updating ticket status';
+        const errorMessage =
+          err.error?.message || 'Error updating ticket status';
         this.toastr.error(errorMessage, 'Error');
         ticket.status = originalStatus;
+      },
+    });
+  }
+
+  deleteTickets(ticket: Ticket) {
+    const token = localStorage.getItem('token') || '';
+
+    this.tktService.deleteTicket(ticket.id, token).subscribe({
+      next: () => {
+        this.tickets = this.tickets.filter((t) => t.id !== ticket.id);
+        this.toastr.success('Ticket deleted successfully!', 'Success');
+      },
+      error: (err) => {
+        console.error('Error deleting ticket:', err);
+        this.toastr.error(
+          'Failed to delete ticket. Please try again.',
+          'Error'
+        );
       },
     });
   }

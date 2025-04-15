@@ -10,6 +10,7 @@ import { TktServiceService } from '../../../services/tickets/tkt-service.service
 import { CommonModule } from '@angular/common';
 import { Agent } from '../../../interfaces/agentProfile.interface';
 import { AgentService } from '../../../services/agents/agent.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-ticket-form',
@@ -28,15 +29,16 @@ export class EditTicketFormComponent {
   error: string | null = null;
   constructor(
     private fb: FormBuilder,
-    private ticketSsevice: TktServiceService,
-    private agentService: AgentService
+    private ticketService: TktServiceService,
+    private agentService: AgentService,
+    private toastr: ToastrService
   ) {}
+
   ngOnInit(): void {
     this.loadAgents();
     this.editForm = this.fb.group({
       agentId: [this.ticket?.agent._id || '', [Validators.required]],
       title: [this.ticket?.title || ''],
-      status: [this.ticket?.status || ''],
       description: [this.ticket?.description || ''],
     });
   }
@@ -47,9 +49,6 @@ export class EditTicketFormComponent {
   }
   get titleControl() {
     return this.editForm.get('title');
-  }
-  get statusControl() {
-    return this.editForm.get('status');
   }
   get descriptionControl() {
     return this.editForm.get('description');
@@ -75,20 +74,36 @@ export class EditTicketFormComponent {
     this.isSubmitting = true;
     this.error = null;
     const token = localStorage.getItem('token') || '';
-    this.ticketSsevice
+    this.ticketService
       .editTicket(token, this.ticket.id, this.editForm.value)
       .subscribe({
         next: (response) => {
           this.isSubmitting = false;
           this.editForm.reset();
+          this.toastr.success('Ticket updated successfully!', 'Success');
           this.ticketUpdated.emit(response);
           this.close.emit();
         },
         error: (error) => {
           this.isSubmitting = false;
-          this.error =
-            error.message || 'Error updating ticket. Please try again later.';
+          const errorMessage =
+            error.error?.message || 'Error updating ticket. Please try again later.';
+          this.error = errorMessage;
+
+          if (errorMessage === 'The selected agent is not available') {
+            this.toastr.warning('The selected agent is not available! Please choose another agent.', 'Warning');
+            this.editForm.patchValue({ agentId: '' });
+            this.editForm.markAsTouched();
+          } else {
+            this.toastr.error(errorMessage, 'Error');
+            this.close.emit();
+          }
         },
       });
+  }
+
+  onClose() {
+    this.editForm.reset();
+    this.close.emit();
   }
 }

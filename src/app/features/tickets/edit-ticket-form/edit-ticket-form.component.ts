@@ -22,17 +22,17 @@ export class EditTicketFormComponent {
   @Input() ticket!: Ticket;
   @Output() ticketUpdated = new EventEmitter<Ticket>();
   @Output() close = new EventEmitter<void>();
-  agents:Agent[]=[]
+  agents: Agent[] = [];
   editForm!: FormGroup;
   isSubmitting = false;
   error: string | null = null;
   constructor(
     private fb: FormBuilder,
     private ticketSsevice: TktServiceService,
-    private agentService:AgentService
+    private agentService: AgentService
   ) {}
   ngOnInit(): void {
-   this.loadAgents()
+    this.loadAgents();
     this.editForm = this.fb.group({
       agentId: [this.ticket?.agentId || '', [Validators.required]],
       title: [this.ticket?.title || ''],
@@ -54,7 +54,7 @@ export class EditTicketFormComponent {
     return this.editForm.get('description');
   }
 
-loadAgents() {
+  loadAgents() {
     const token = localStorage.getItem('token') || '';
     this.agentService.getAgents(token).subscribe({
       next: (response) => {
@@ -66,7 +66,6 @@ loadAgents() {
       },
     });
   }
-
 
   onSubmit() {
     if (this.editForm.invalid) {

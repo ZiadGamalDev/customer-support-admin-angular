@@ -59,7 +59,7 @@
           (click)="openModalAdd()"
           class="p-2 bg-sky-800 text-white rounded hover:opacity-85 duration-200 transition-all cursor-pointer"
         >
-          Add Agent
+          Add Agent | User
         </button>
 
         <!-- * (Add) Modal -->
@@ -75,7 +75,7 @@
             class="bg-white p-12 rounded shadow-2xl w-[90%] max-w-xl animate-fade-in transition-all"
           >
             <h2 class="text-2xl font-semibold mb-6 text-sky-800 text-center">
-              Add New Agent
+              Add New Agent | User
             </h2>
 
             <form
@@ -151,6 +151,7 @@
                 >
                   <option value="" disabled>Select Role</option>
                   <option value="agent">Agent</option>
+                  <option value="user">User</option>
                 </select>
                 <div
                   *ngIf="

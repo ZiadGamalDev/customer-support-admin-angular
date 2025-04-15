@@ -78,6 +78,7 @@
               <th class="py-3 px-6 text-left">Date</th>
               <th class="py-3 px-6 text-left">status</th>
               <th class="py-3 px-6 text-left">description</th>
+              <th class="py-3 px-6 text-left">Agent Name</th>
               <th class="py-3 px-6 text-left">actions</th>
             </tr>
           </thead>
@@ -113,6 +114,9 @@
               </td>
               <td class="px-6 py-4 text-sm text-gray-700 font-medium">
                 {{ ticket.description }}
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-700 font-medium">
+                {{ ticket.agent.name}}
               </td>
               <td class="px-6 py-4 text-sm flex gap-3">
                 <button

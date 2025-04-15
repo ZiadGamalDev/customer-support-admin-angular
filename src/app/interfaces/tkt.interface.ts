@@ -9,6 +9,12 @@ export interface Ticket {
   createdAt: string;
   customer: string;
   agentId: string
+  agent: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+  
 }
 
 export interface DashTicket {

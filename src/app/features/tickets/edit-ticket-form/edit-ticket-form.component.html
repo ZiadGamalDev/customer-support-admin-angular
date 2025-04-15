@@ -1,0 +1,93 @@
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="bg-white border border-gray-200 rounded-xl shadow p-6 mx-2  mt-3">
+  <!-- Agent ID Field -->
+  <div class="mb-6">
+    <label for="agentId" class="font-medium block text-gray-700 mb-1">
+      Assign Agent*
+    </label>
+    <div class="relative">
+     <select id="agentId"
+      formControlName="agentId"
+      class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
+      [class.border-red-500]="agentIdControl?.invalid && agentIdControl?.touched"
+      required
+     >
+     <option value="">Select an Agent</option>
+     @for (agent of agents; track agent.id) {
+       <option [value]="agent.id">{{agent.name}} - {{agent.status}}</option>
+     }
+    
+    </select>
+    </div>
+    @if (agentIdControl?.invalid && agentIdControl?.touched) {
+      <small class="text-red-700 flex items-center mt-1">
+        <i class="fas fa-exclamation-circle mr-1"></i>
+        Please select an agent
+      </small>
+    }
+  </div>
+
+  <!-- Title Field -->
+  <div class="mb-6">
+    <label for="title" class="font-medium block text-gray-700 mb-1">
+      Title
+    </label>
+    <input
+      type="text"
+      id="title"
+      formControlName="title"
+      class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
+    />
+  </div>
+
+  <!-- Description Field -->
+  <div class="mb-6">
+    <label for="description" class="font-medium block text-gray-700 mb-1">
+      Description
+    </label>
+    <textarea
+      id="description"
+      formControlName="description"
+      rows="3"
+      class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
+    ></textarea>
+  </div>
+
+  <!-- Status Field -->
+  <div class="mb-6">
+    <label for="status" class="font-medium block text-gray-700 mb-1">
+      Status
+    </label>
+    <select
+      id="status"
+      formControlName="status"
+      class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
+    >
+      <option value="">Select Status</option>
+      <option value="pending" class="flex items-center"><span class="flex items-center">
+        <span class="w-2 h-2 rounded-full bg-yellow-400 inline-block mr-2"></span>
+        Pending
+      </span>
+    </option>
+      <option value="resolved">Resolved</option>
+     
+    </select>
+  </div>
+
+  @if (error) {
+    <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+      {{ error }}
+    </div>
+  }
+
+  <!-- Submit Button -->
+  <button
+    type="submit"
+    class="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+    [disabled]="!editForm.valid || isSubmitting"
+  >
+    @if (isSubmitting) {
+      <i class="fas fa-circle-notch fa-spin mr-2"></i>
+    }
+    {{ isSubmitting ? "Updating..." : "Update Ticket" }}
+  </button>
+</form>

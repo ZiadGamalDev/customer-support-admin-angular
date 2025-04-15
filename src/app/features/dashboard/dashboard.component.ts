@@ -1,7 +1,12 @@
 import { Component } from '@angular/core';
+
+import { AgentProfileService } from '../../services/agent-profile/agent.profile.service';
+
+
 import { AgentSidebarComponent } from '../sidebar/agent-sidebar/agent-sidebar.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+
 
 interface Ticket {
   id: number;
@@ -14,11 +19,15 @@ interface Ticket {
 
 @Component({
   selector: 'app-dashboard',
+
   imports: [CommonModule, AgentSidebarComponent],
+
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
+  adminName: string = '';
+
   tickets: Ticket[] = [
     {
       id: 1,
@@ -43,11 +52,33 @@ export class DashboardComponent {
   loading = true;
   error: string | null = null;
 
-  constructor(private http: HttpClient) {}
+  
+
+
+  constructor(private http: HttpClient,private agentProfileService:AgentProfileService) {}
 
   ngOnInit(): void {
-    this.fetchStatistics();
+    this.loadAdminProfile(),
+     this.fetchStatistics();
   }
+
+private loadAdminProfile():void{
+  const userAccessToken = localStorage.getItem('token') ?? '';
+  this.agentProfileService.getProfile(userAccessToken).pipe().subscribe({
+   
+    next: (profile) => {
+      // Handle the profile data here
+      console.log('Profile loaded:', profile);
+      this.adminName=profile.name
+    },
+    error: (error) => {
+      console.error('Error loading profile:', error);
+    }
+  });
+}
+
+
+  
 
   fetchStatistics() {
     const token = localStorage.getItem('token');
@@ -72,6 +103,7 @@ export class DashboardComponent {
           console.error('Error fetching statistics:', err);
         },
       });
+
   }
 
   getPriorityClass(priority: string): string {

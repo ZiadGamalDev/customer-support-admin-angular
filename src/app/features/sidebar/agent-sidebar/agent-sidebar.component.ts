@@ -4,6 +4,7 @@ import { RouterLink, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from './../../../core/auth.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AgentProfileService } from '../../../services/agent-profile/agent.profile.service';
 
 @Component({
   selector: 'app-agent-sidebar',
@@ -16,18 +17,37 @@ export class AgentSidebarComponent implements OnInit {
   agentStatus: 'available' | 'away' | 'busy' = 'away';
   previousStatus: typeof this.agentStatus = 'away';
   isSidebarOpen = false;
-
+  adminName: string = '';
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
 
   constructor(
     private authService: AuthService,
+    private agentProfileService:AgentProfileService,
     // private agentStatusService: AgentStatusService,
     private http: HttpClient
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadAdminProfile()
+  }
+
+private loadAdminProfile():void{
+  const userAccessToken = localStorage.getItem('token') ?? '';
+  this.agentProfileService.getProfile(userAccessToken).pipe().subscribe({
+   
+    next: (profile) => {
+      // Handle the profile data here
+      console.log('Profile loaded:', profile);
+      this.adminName=profile.name
+    },
+    error: (error) => {
+      console.error('Error loading profile:', error);
+    }
+  });
+}
+
 
   handleChangeAgentStatus(newStatus: 'available' | 'away' | 'busy') {
     if (newStatus === this.previousStatus) return;

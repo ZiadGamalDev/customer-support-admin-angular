@@ -45,11 +45,18 @@
         <div class="flex justify-center items-center h-64">
           <p class="text-red-500">{{ error }}</p>
         </div>
-        } @else{
+        }@else if (filteredTickets.length === 0) {
+          <div class="flex justify-center items-center h-64">
+            <p class="text-gray-500 text-center">
+              {{ searchQuery ? 'No matching tickets found.' : 'No tickets available.' }}
+            </p>
+          </div>
+        }
+         @else{
         <table class="w-full min-w-full divide-y divide-gray-200">
           @if (filteredTickets.length === 0) {
           <div class="flex justify-center items-center h-64">
-            <p class="text-gray-500">{{ searchQuery ? 'No matching tickets found.' : 'No tickets available.' }}</p>
+            <p class="text-gray-500 text-center">{{ searchQuery ? 'No matching tickets found.' : 'No tickets available.' }}</p>
           </div>
           }
           <thead>

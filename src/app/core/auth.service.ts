@@ -70,7 +70,7 @@ export class AuthService {
    *  ------------------------------------------------------------------ */
   login(email: string, password: string): Observable<void> {
     return this.http
-      .post<{ token: string; user: any }>(`${this.apiBaseUrl}/auth/login`, {
+      .post<{ token: string; user: any }>(`${this.apiBaseUrl}/admin/auth/login`, {
         email,
         password,
       })

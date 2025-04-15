@@ -8,9 +8,7 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 
-
 import { CommonModule } from '@angular/common';
-
 
 import { Router, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -47,19 +45,16 @@ export class LoginComponent implements OnInit, OnDestroy {
   loading = false;
   private sub?: Subscription;
 
-
-
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
     private router: Router
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [
-        Validators.required, 
-        Validators.email,
-        this.validateEmailDomain
-      ]],
+      email: [
+        '',
+        [Validators.required, Validators.email, this.validateEmailDomain],
+      ],
       password: ['', [Validators.required]], // Simplified password validation
     });
   }
@@ -69,8 +64,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl('/dashboard');
     }
   }
-
-
 
   onSubmit() {
     if (this.loginForm.invalid) return;
@@ -96,19 +89,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   // Add email domain validator
-  private validateEmailDomain(control: AbstractControl): ValidationErrors | null {
+  private validateEmailDomain(
+    control: AbstractControl
+  ): ValidationErrors | null {
     const value = control.value;
     if (!value) return null;
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(value)) {
       return null;
     }
     const validDomains = [
-      'gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com',
-      'icloud.com', 'aol.com', 'protonmail.com','customer-support.com',
-
+      'gmail.com',
+      'yahoo.com',
+      'outlook.com',
+      'hotmail.com',
+      'icloud.com',
+      'aol.com',
+      'protonmail.com',
+      'customer-support.com',
     ];
     const domain = value.split('@')[1]?.toLowerCase();
-    if (!domain || !validDomains.some(validDomain => domain === validDomain)) {
+    if (
+      !domain ||
+      !validDomains.some((validDomain) => domain === validDomain)
+    ) {
       return { invalidDomain: true };
     }
     return null;
@@ -120,7 +123,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (control?.errors) {
       if (control.errors['required']) return 'Email is required';
       if (control.errors['email']) return 'Please enter a valid email address';
-      if (control.errors['invalidDomain']) 
+      if (control.errors['invalidDomain'])
         return 'Email must be from a valid domain (gmail.com, yahoo.com, etc.)';
     }
     return '';

@@ -1,80 +1,105 @@
 <form
   [formGroup]="editForm"
   (ngSubmit)="onSubmit()"
-  class="bg-white border border-gray-200 rounded-xl shadow p-6 mx-2 mt-3"
+  class="bg-white border border-gray-200 rounded-xl shadow p-6 mx-5 mt-3 overflow-x-auto"
 >
-  <!-- Agent ID Field -->
-  <div class="mb-6">
-    <label for="agentId" class="font-medium block text-gray-700 mb-1">
-      Assign Agent*
-    </label>
-    <div class="relative">
-      <select
-        id="agentId"
-        formControlName="agentId"
-        class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
-        [class.border-red-500]="
-          agentIdControl?.invalid && agentIdControl?.touched
-        "
-        required
-      >
-        <option value="">Select an Agent</option>
-        @for (agent of agents; track agent.id) {
-        <option [value]="agent.id">
-          {{ agent.name }} - {{ agent.status }}
-        </option>
+  <div class="flex flex-col justify-end">
+    <!-- <button
+      (click)="close.emit()"
+      class="cursor-pointer h-7 w-7 mb-5 hover:bg-gray-200 duration-200 transition-all rounded-full"
+    >
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+        <g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        ></g>
+        <g id="SVGRepo_iconCarrier">
+          <path
+            d="M8.00386 9.41816C7.61333 9.02763 7.61334 8.39447 8.00386 8.00395C8.39438 7.61342 9.02755 7.61342 9.41807 8.00395L12.0057 10.5916L14.5907 8.00657C14.9813 7.61605 15.6144 7.61605 16.0049 8.00657C16.3955 8.3971 16.3955 9.03026 16.0049 9.42079L13.4199 12.0058L16.0039 14.5897C16.3944 14.9803 16.3944 15.6134 16.0039 16.0039C15.6133 16.3945 14.9802 16.3945 14.5896 16.0039L12.0057 13.42L9.42097 16.0048C9.03045 16.3953 8.39728 16.3953 8.00676 16.0048C7.61624 15.6142 7.61624 14.9811 8.00676 14.5905L10.5915 12.0058L8.00386 9.41816Z"
+            fill="#0F0F0F"
+          ></path>
+        </g>
+      </svg>
+    </button> -->
+    <div>
+      <!-- Agent ID Field -->
+      <div class="mb-6">
+        <label for="agentId" class="font-medium block text-gray-700 mb-1">
+          Assign Agent*
+        </label>
+        <div class="relative">
+          <select
+            id="agentId"
+            formControlName="agentId"
+            class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
+            [class.border-red-500]="
+              agentIdControl?.invalid && agentIdControl?.touched
+            "
+            required
+          >
+            <option value="">Select an Agent</option>
+            @for (agent of agents; track agent.id) {
+            <option [value]="agent.id">
+              {{ agent.name }} - {{ agent.status }}
+            </option>
+            }
+          </select>
+        </div>
+        @if (agentIdControl?.invalid && agentIdControl?.touched) {
+        <small class="text-red-700 flex items-center mt-1">
+          <i class="fas fa-exclamation-circle mr-1"></i>
+          Please select an agent
+        </small>
         }
-      </select>
+      </div>
+
+      <!-- Title Field -->
+      <div class="mb-6">
+        <label for="title" class="font-medium block text-gray-700 mb-1">
+          Title
+        </label>
+        <input
+          type="text"
+          id="title"
+          formControlName="title"
+          class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
+        />
+      </div>
+
+      <!-- Description Field -->
+      <div class="mb-6">
+        <label for="description" class="font-medium block text-gray-700 mb-1">
+          Description
+        </label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="3"
+          class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
+        ></textarea>
+      </div>
+
+      @if (error) {
+      <div
+        class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded"
+      >
+        {{ error }}
+      </div>
+      }
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        [disabled]="!editForm.valid || isSubmitting"
+      >
+        @if (isSubmitting) {
+        <i class="fas fa-circle-notch fa-spin mr-2"></i>
+        }
+        {{ isSubmitting ? "Updating..." : "Update Ticket" }}
+      </button>
     </div>
-    @if (agentIdControl?.invalid && agentIdControl?.touched) {
-    <small class="text-red-700 flex items-center mt-1">
-      <i class="fas fa-exclamation-circle mr-1"></i>
-      Please select an agent
-    </small>
-    }
   </div>
-
-  <!-- Title Field -->
-  <div class="mb-6">
-    <label for="title" class="font-medium block text-gray-700 mb-1">
-      Title
-    </label>
-    <input
-      type="text"
-      id="title"
-      formControlName="title"
-      class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
-    />
-  </div>
-
-  <!-- Description Field -->
-  <div class="mb-6">
-    <label for="description" class="font-medium block text-gray-700 mb-1">
-      Description
-    </label>
-    <textarea
-      id="description"
-      formControlName="description"
-      rows="3"
-      class="w-full rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
-    ></textarea>
-  </div>
-
-  @if (error) {
-  <div class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-    {{ error }}
-  </div>
-  }
-
-  <!-- Submit Button -->
-  <button
-    type="submit"
-    class="w-full bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-    [disabled]="!editForm.valid || isSubmitting"
-  >
-    @if (isSubmitting) {
-    <i class="fas fa-circle-notch fa-spin mr-2"></i>
-    }
-    {{ isSubmitting ? "Updating..." : "Update Ticket" }}
-  </button>
 </form>

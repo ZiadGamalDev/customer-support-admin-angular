@@ -1,13 +1,13 @@
-<div class="bg-gray-50 w-full h-[100%] min-w-full pt-3 overflow-x-auto">
+<div class="bg-gray-50 w-full h-[100%] min-w-full pt-3">
   <div class="space-y-6 p-6 max-w-none w-full">
     <div>
       <h2 class="text-3xl font-bold">Tickets</h2>
       <p class="text-gray-500">Manage your tickets here.</p>
     </div>
     <div class="rounded-lg p-4 bg-white">
-      <div class="flex flex-col md:flex-row p-4 justify-between">
+      <div class="flex flex-col md:flex-row p-4 justify-between ">
         <h2 class="text-xl py-2">All Tickets</h2>
-        <form action="" class="relative bg-gray-100">
+        <form action="" class="relative bg-gray-100 ">
           <input
             type="text"
             placeholder="Search by name"
@@ -31,7 +31,7 @@
       </div>
 
       <!-- Agents Table -->
-      <div class="mx-5 my-2 rounded shadow border border-gray-200 mt-2">
+      <div class="mx-5 my-2 rounded shadow border border-gray-200 mt-2 w-full overflow-x-auto">
         @if (isLoading) {
         <div class="flex justify-center items-center h-64">
           <div
@@ -43,22 +43,23 @@
           <p class="text-red-500">{{ error }}</p>
         </div>
         } @else{
-        <table class="w-full min-w-full divide-y divide-gray-200">
+        <table class="divide-y divide-gray-200 w-[100%]">
           @if (tickets.length === 0) {
           <div class="flex justify-center items-center h-64">
             <p class="text-gray-500">No tickets available.</p>
           </div>
           }
           <thead>
-            <tr class="text-gray-500 uppercase text-sm font-medium">
+            <tr class="text-gray-500 uppercase text-sm font-medium w-full">
               <th class="py-3 px-6 text-left">id</th>
               <th class="py-3 px-6 text-left">title</th>
               <th class="py-3 px-6 text-left">Date</th>
               <th class="py-3 px-6 text-left">status</th>
               <th class="py-3 px-6 text-left">description</th>
+              <th class="py-3 px-6 text-left">actions</th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
+          <tbody class="bg-white divide-y divide-gray-200 overflow-x-auto">
             @for( ticket of tickets;track ticket.id ){
             <tr class="hover:bg-blue-50">
               <td class="px-6 py-4 text-sm text-gray-700 font-medium">
@@ -77,11 +78,13 @@
                   class="rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
                   title="Change status (updates immediately)"
                 >
-                <option [value]="ticket.status">{{ticket.status}}</option>
+                  <option [value]="ticket.status">{{ ticket.status }}</option>
                   <option *ngIf="ticket.status === 'open'" value="open">
                     Open
                   </option>
-                  <option *ngIf="ticket.status === 'new'" value="new">New</option>
+                  <option *ngIf="ticket.status === 'new'" value="new">
+                    New
+                  </option>
                   <option value="pending">Pending</option>
                   <option value="resolved">Resolved</option>
                 </select>
@@ -89,12 +92,18 @@
               <td class="px-6 py-4 text-sm text-gray-700 font-medium">
                 {{ ticket.description }}
               </td>
-              <td class="px-6 py-4 text-sm">
+              <td class="px-6 py-4 text-sm flex gap-3">
                 <button
                   (click)="onTicketSelect(ticket)"
                   class="text-white hover:bg-indigo-900 p-2 bg-indigo-600 rounded-lg cursor-pointer transition-all duration-200"
                 >
                   Edit
+                </button>
+                <button
+                  (click)="deleteTickets(ticket)"
+                  class="text-white hover:bg-red-800 p-2 bg-red-600 rounded-lg cursor-pointer transition-all duration-200"
+                >
+                  Delete
                 </button>
               </td>
             </tr>

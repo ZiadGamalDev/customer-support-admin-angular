@@ -18,6 +18,7 @@ export class TktServiceService {
       },
     });
   }
+
   editTicket(
     userAccessToken: string,
     chatId: string,
@@ -50,6 +51,13 @@ export class TktServiceService {
 
     const body = { status };
     return this._http.put<Ticket>(`${this.URL}/${chatId}`, body, { headers });
+  }
+
+  deleteTicket(ticketId: string, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this._http.delete(`${this.URL}/${ticketId}`, { headers });
   }
 
   getRecentTickets(token: string): Observable<Ticket[]> {

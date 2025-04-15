@@ -21,6 +21,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './tickets-table.component.css',
 })
 export class TicketsTableComponent implements OnInit {
+  protected Math = Math;
   @Output() selectTicket = new EventEmitter<Ticket>();
   tickets: Ticket[] = [];
   isLoading: boolean = false;
@@ -28,6 +29,8 @@ export class TicketsTableComponent implements OnInit {
   selectedTicket: Ticket | null = null;
   searchQuery: string = '';
   filteredTickets: Ticket[] = [];
+  currentPage:number=1
+  pageSize:number=5
   constructor(
     private tktService: TktServiceService,
     private toastr: ToastrService
@@ -60,6 +63,29 @@ export class TicketsTableComponent implements OnInit {
     });
   }
 
+  get PaginatedTickets(){
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    return this.filteredTickets.slice(startIndex, endIndex);
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredTickets.length / this.pageSize);
+  }
+
+  changePage(page:number){
+    if(page>=1&&page<=this.totalPages){
+      this.currentPage = page;
+    }
+  }
+
+  getPages(): number[] {
+    const pages: number[] = [];
+    for (let i = 1; i <= this.totalPages; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
   searchTickets(query: string) {
     this.searchQuery = query;
     if(!query.trim){

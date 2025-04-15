@@ -17,16 +17,17 @@ export class TicketsPageComponent {
 
   @ViewChild('ticketsTable') ticketsTable!: TicketsTableComponent;
 
-  // onSelectTicket(ticket: Ticket) {
-  //   this.selectedTicket = ticket;
-  // }
+  onSelectTicket(ticket: Ticket) {
+    this.selectedTicket = ticket;
+  }
 
-  // onTicketUpdated(updatedTicket: Ticket) {
-  //   // Update the selected ticket with new data
-  //   this.selectedTicket = updatedTicket;
-  //   // Notify the table component to update its data
-  //   // this.updateTableData(updatedTicket);
-  // }
+  onTicketUpdated(updatedTicket: Ticket) {
+    if (this.ticketsTable) {
+      this.ticketsTable.updateTicketInTable(updatedTicket);
+    }
+    this.clearSelectedTicket();
+  }
+ 
 
   clearSelectedTicket() {
     this.selectedTicket = null;

@@ -73,9 +73,10 @@ export class TicketsTableComponent implements OnInit {
 
   updateTicketInTable(updatedTicket: Ticket) {
     this.tickets = this.tickets.map((ticket) =>
-      ticket.id === updatedTicket.id
-        ? { ...updatedTicket, isLoading: false }
-        : ticket
+      ticket.id === updatedTicket.id ? updatedTicket : ticket
+    );
+    this.filteredTickets = this.filteredTickets.map((ticket) =>
+      ticket.id === updatedTicket.id ? updatedTicket : ticket
     );
     this.selectedTicket = null;
   }

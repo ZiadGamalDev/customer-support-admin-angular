@@ -79,9 +79,9 @@ export class EditTicketFormComponent {
       .subscribe({
         next: (response) => {
           this.isSubmitting = false;
-          this.editForm.reset();
           this.toastr.success('Ticket updated successfully!', 'Success');
           this.ticketUpdated.emit(response);
+          this.editForm.reset();
           this.close.emit();
         },
         error: (error) => {

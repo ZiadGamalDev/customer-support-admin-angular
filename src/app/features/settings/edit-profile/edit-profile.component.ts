@@ -171,9 +171,14 @@ export class EditProfileComponent implements OnInit, OnDestroy {
       if (!value) return null;
 
       // Allow alphabets, spaces and numbers (but not only numbers)
-      const nameRegex = /^(?![0-9]+$)[a-zA-Z0-9\s]+$/;
+      const nameRegex = /^(?![0-9]+$)[a-zA-Z0-9\s]{3,}$/;
+    const hasThreeLetters = /[a-zA-Z]{3,}/.test(value);
 
-      return nameRegex.test(value) ? null : { invalidName: true };
+    if (!nameRegex.test(value) || !hasThreeLetters) {
+      return { invalidName: true };
+    }
+
+    return null;
     };
   }
 

@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
+
 import { AgentProfileService } from '../../services/agent-profile/agent.profile.service';
+
+
+import { AgentSidebarComponent } from '../sidebar/agent-sidebar/agent-sidebar.component';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 
 interface Ticket {
@@ -13,7 +19,9 @@ interface Ticket {
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+
+  imports: [CommonModule, AgentSidebarComponent],
+
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
@@ -40,19 +48,18 @@ export class DashboardComponent {
     },
   ];
 
-  stats = {
-    total: 2,
-    open: 1,
-    pending: 1,
-    resolved: 0,
-  };
+  statistics: any = null;
+  loading = true;
+  error: string | null = null;
 
-  activeTab: 'recent' | 'priority' = 'recent';
+  
 
-  constructor(private agentProfileService:AgentProfileService) {}
+
+  constructor(private http: HttpClient,private agentProfileService:AgentProfileService) {}
 
   ngOnInit(): void {
-    this.loadAdminProfile()
+    this.loadAdminProfile(),
+     this.fetchStatistics();
   }
 
 private loadAdminProfile():void{
@@ -69,8 +76,34 @@ private loadAdminProfile():void{
     }
   });
 }
-  switchTab(tab: 'recent' | 'priority'): void {
-    this.activeTab = tab;
+
+
+  
+
+  fetchStatistics() {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    });
+
+    this.http
+      .get('http://localhost:3000/admin/dashboard/statistics', { headers })
+      .subscribe({
+        next: (res: any) => {
+          console.log(res);
+          
+          this.statistics = res.statistics;
+          this.loading = false;
+          console.log('Statistics:', this.statistics);
+        },
+        error: (err) => {
+          this.error = 'Failed to load statistics. Please try again later.';
+          this.loading = false;
+          console.error('Error fetching statistics:', err);
+        },
+      });
+
   }
 
   getPriorityClass(priority: string): string {

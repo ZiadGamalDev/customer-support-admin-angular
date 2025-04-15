@@ -136,6 +136,9 @@
                   >
                     Please enter a valid email address.
                   </div>
+                  <div *ngIf="agentForm.get('email')?.errors?.['invalidDomain'] && agentForm.get('email')?.touched">
+                    Email must be from a valid domain like gmail.com, yahoo.com, etc.
+                  </div>
                 </div>
               </div>
 
@@ -210,8 +213,7 @@
                   </div>
                   <div *ngIf="agentForm.get('password')?.errors?.['pattern']">
                     Password must contain at least one uppercase letter, one
-                    lowercase letter, one number, and one special character
-                    (&#64; $ ! % * ? &).
+                    lowercase letter, one number.
                   </div>
                 </div>
               </div>

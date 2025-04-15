@@ -4,8 +4,8 @@
   class="bg-white border border-gray-200 rounded-xl shadow p-6 mx-5 mt-3 overflow-x-auto"
 >
   <div class="flex flex-col justify-end">
-    <!-- <button
-      (click)="close.emit()"
+    <button
+      (click)="onClose()"
       class="cursor-pointer h-7 w-7 mb-5 hover:bg-gray-200 duration-200 transition-all rounded-full"
     >
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,7 +22,7 @@
           ></path>
         </g>
       </svg>
-    </button> -->
+    </button>
     <div>
       <!-- Agent ID Field -->
       <div class="mb-6">
@@ -41,9 +41,11 @@
           >
             <option value="">Select an Agent</option>
             @for (agent of agents; track agent.id) {
-            <option [value]="agent.id">
-              {{ agent.name }} - {{ agent.status }}
-            </option>
+              @if(agent.role !== "user"){
+                <option [value]="agent.id">
+                  {{ agent.name }} - {{ agent.status }}
+                </option>
+              }
             }
           </select>
         </div>
@@ -82,14 +84,27 @@
       </div>
 
       @if (error) {
-      <div
-        class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded"
-      >
-        {{ error }}
-      </div>
-      }
+        <div
+          class="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded"
+        >
+          {{ error }}
+          @if (error === 'The selected agent is not available') {
+          <p class="mt-1 text-sm">
+            Please select another agent or try again later.
+          </p>
+          }
+        </div>
+        }
 
-      <!-- Submit Button -->
+      <!-- Submit and Cancel Buttons -->
+    <div class="flex justify-end gap-3">
+      <button
+        type="button"
+        (click)="onClose()"
+        class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors"
+      >
+        Cancel
+      </button>
       <button
         type="submit"
         class="bg-indigo-500 text-white py-2 px-4 rounded-md hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
@@ -100,6 +115,7 @@
         }
         {{ isSubmitting ? "Updating..." : "Update Ticket" }}
       </button>
+    </div>
     </div>
   </div>
 </form>

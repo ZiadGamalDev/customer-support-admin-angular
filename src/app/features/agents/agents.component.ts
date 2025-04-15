@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { emailDomainValidator } from '../../validators/email-domain.validator';
 
 @Component({
   selector: 'app-agents',
@@ -77,6 +78,7 @@ export class AgentsComponent {
             Validators.pattern(
               /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
             ),
+            emailDomainValidator
           ],
         ],
         password: [
@@ -85,7 +87,7 @@ export class AgentsComponent {
             Validators.required,
             Validators.minLength(6),
             Validators.pattern(
-              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{6,}$/
             ),
           ],
         ],
@@ -265,6 +267,8 @@ export class AgentsComponent {
           this.fetchUsers();
         },
         error: (err) => {
+          console.log(err.message);
+          
           const errorMessage = err.error?.message || 'Error adding agent';
           this.toastr.error(errorMessage, 'Error');
         },

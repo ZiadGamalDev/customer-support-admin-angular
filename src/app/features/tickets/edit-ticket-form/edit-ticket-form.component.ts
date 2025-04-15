@@ -80,17 +80,30 @@ export class EditTicketFormComponent {
         next: (response) => {
           this.isSubmitting = false;
           this.editForm.reset();
+          this.toastr.success('Ticket updated successfully!', 'Success');
           this.ticketUpdated.emit(response);
           this.close.emit();
         },
         error: (error) => {
-          if (error.message === 'The selected agent is not available') {
-            this.toastr.warning('The selected agent is not available!', 'warning');
-          }
           this.isSubmitting = false;
-          this.error =
-            error.message || 'Error updating ticket. Please try again later.';
+          const errorMessage =
+            error.error?.message || 'Error updating ticket. Please try again later.';
+          this.error = errorMessage;
+
+          if (errorMessage === 'The selected agent is not available') {
+            this.toastr.warning('The selected agent is not available! Please choose another agent.', 'Warning');
+            this.editForm.patchValue({ agentId: '' });
+            this.editForm.markAsTouched();
+          } else {
+            this.toastr.error(errorMessage, 'Error');
+            this.close.emit();
+          }
         },
       });
+  }
+
+  onClose() {
+    this.editForm.reset();
+    this.close.emit();
   }
 }

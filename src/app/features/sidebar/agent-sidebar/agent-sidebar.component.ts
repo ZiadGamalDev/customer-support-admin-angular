@@ -49,52 +49,6 @@ private loadAdminProfile():void{
 }
 
 
-  handleChangeAgentStatus(newStatus: 'available' | 'away' | 'busy') {
-    if (newStatus === this.previousStatus) return;
-
-    const confirmed = confirm(
-      `Are you sure to change status to "${newStatus}"?`
-    );
-
-    if (!confirmed) {
-      this.agentStatus = this.previousStatus;
-      return;
-    }
-
-    // this.agentStatusService.updateStatus(newStatus).subscribe({
-    //   next: () => {
-    //     this.agentStatus = newStatus;
-    //     this.previousStatus = newStatus;
-
-    //     if (newStatus === 'available') {
-    //       this.checkForChats();
-    //     } else if (newStatus === 'away') {
-    //       this.chatService.resetChat(); // clear UI
-    //     }
-    //   },
-    //   error: (err) => {
-    //     console.error('[Sidebar] Failed to update status', err);
-    //     alert(err?.error?.message || 'Error updating status');
-    //     this.agentStatus = this.previousStatus;
-    //   },
-    // });
-  }
-
-  // private checkForChats(): void {
-  //   const token = localStorage.getItem('token') ?? '';
-  //   const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-
-  //   this.http
-  //     .get<any[]>('http://localhost:3000/chats/agent', { headers })
-  //     .subscribe({
-  //       next: (chats) => {
-  //         if (Array.isArray(chats) && chats.length > 0) {
-  //           this.chatService.selectChat(chats[0].id);
-  //         }
-  //       },
-  //       error: (err) => console.error('[Sidebar] Failed to fetch chats', err),
-  //     });
-  // }
 
   logout() {
     this.authService.logout();

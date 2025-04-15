@@ -5,13 +5,35 @@
       <div class="mb-6 mt-7">
         <h1 class="text-2xl md:text-3xl font-bold text-gray-900">Dashboard</h1>
         <p class="text-gray-600">
-          Welcome back {{adminName}}, Here's an overview of your support tickets.
+          Welcome back {{ adminName }}, Here's an overview of your support
+          tickets.
         </p>
       </div>
 
       <div class="p-6">
-        <div *ngIf="loading" class="text-center">
-          <p class="text-gray-500">Loading statistics...</p>
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="flex justify-center items-center p-4">
+          <svg
+            class="animate-spin h-5 w-5 text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+          <span class="ml-2 text-gray-600">Loading...</span>
         </div>
 
         <div *ngIf="error && !loading" class="text-center">
@@ -223,22 +245,28 @@
         </div>
       </div>
 
-      <!-- Tabs and Tickets -->
+      <!-- Recent Tickets -->
       <div class="bg-white rounded-lg shadow-sm">
+        <!-- Tabs -->
         <div class="border-b border-gray-200">
           <div class="flex">
-            <button
+            <span
               class="px-4 py-3 text-sm font-medium text-gray-800 border-b-2 border-blue-500"
             >
               Recent Tickets
-            </button>
+            </span>
           </div>
         </div>
 
         <div class="p-1">
+          <!-- Header with View All Link -->
           <div class="flex justify-between items-center px-3 py-2">
             <div></div>
-            <a href="#" class="text-blue-500 text-sm flex items-center">
+            <a
+              [routerLink]="['/tickets']"
+              routerLinkActive="router-link-active"
+              class="text-blue-500 text-sm flex items-center"
+            >
               View all
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -257,42 +285,88 @@
             </a>
           </div>
 
-          <!-- Ticket Cards -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-3">
-            <!-- Ticket 1 -->
-            <div class="border border-gray-200 rounded-lg p-4">
-              <h3 class="text-lg font-medium mb-2">
-                Wireless headphones not connecting
-              </h3>
-              <div class="flex items-center mb-3">
-                <span class="text-sm text-gray-500 mr-3">7/16/2023</span>
-                <span
-                  class="bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded"
-                  >Medium</span
-                >
-              </div>
-              <p class="text-gray-600 mb-4">
-                I bought the headphones last week and they won't connect to my
-                phone.
-              </p>
-              <a href="#" class="text-blue-500 text-sm">View details</a>
-            </div>
+          <!-- Loading State -->
+          <div *ngIf="isLoading" class="flex justify-center items-center p-4">
+            <svg
+              class="animate-spin h-5 w-5 text-blue-500"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                class="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                stroke-width="4"
+              ></circle>
+              <path
+                class="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+              ></path>
+            </svg>
+            <span class="ml-2 text-gray-600">Loading...</span>
+          </div>
 
-            <!-- Ticket 2 -->
-            <div class="border border-gray-200 rounded-lg p-4">
-              <h3 class="text-lg font-medium mb-2">Request for refund</h3>
-              <div class="flex items-center mb-3">
-                <span class="text-sm text-gray-500 mr-3">7/21/2023</span>
-                <span
-                  class="bg-red-100 text-red-800 text-xs px-2 py-0.5 rounded"
-                  >High</span
-                >
+          <!-- Error State -->
+          <div *ngIf="error && !isLoading" class="text-red-500 text-center p-4">
+            {{ error }}
+          </div>
+
+          <!-- Ticket Cards -->
+          <div
+            *ngIf="!isLoading && !error"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-3"
+          >
+            <div
+              *ngFor="let ticket of tickets"
+              class="border border-gray-200 rounded-lg p-4"
+            >
+              <h3 class="text-lg font-medium mb-2 truncate">
+                {{ ticket.title }}
+              </h3>
+              <div class="flex flex-col sm:flex-row sm:items-center mb-3 gap-2">
+                <div class="flex flex-col gap-3">
+                  <div class="flex items-center">
+                    <span class="text-sm text-gray-500 mr-3 truncate">{{
+                      formatDate(ticket.createdAt)
+                    }}</span>
+                    <span
+                      class="text-xs px-2 py-0.5 rounded"
+                      [ngClass]="getPriorityClass(ticket.priority)"
+                    >
+                      {{ ticket.priority | titlecase }}
+                    </span>
+                  </div>
+                  <div *ngIf="ticket.agent" class="text-sm text-gray-600">
+                    <span class="font-medium">Assigned to: </span>
+                    <span
+                      [title]="ticket.agent.email"
+                      class="text-blue-600 cursor-pointer"
+                    >
+                      {{ ticket.agent.name }}
+                    </span>
+                  </div>
+                </div>
+                <div *ngIf="!ticket.agent" class="text-sm text-gray-600">
+                  <span class="font-medium">Assigned to: </span>
+                  <span class="text-gray-500">Unassigned</span>
+                </div>
               </div>
-              <p class="text-gray-600 mb-4">
-                I would like to return my smart watch and get a refund.
+              <p class="text-gray-600 mb-4 line-clamp-2">
+                {{ ticket.description }}
               </p>
-              <a href="#" class="text-blue-500 text-sm">View details</a>
             </div>
+          </div>
+
+          <!-- Empty State -->
+          <div
+            *ngIf="!isLoading && !error && tickets.length === 0"
+            class="text-center p-4 text-gray-500"
+          >
+            No recent tickets found.
           </div>
         </div>
       </div>

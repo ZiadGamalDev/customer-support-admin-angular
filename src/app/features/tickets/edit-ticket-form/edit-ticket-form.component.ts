@@ -34,12 +34,13 @@ export class EditTicketFormComponent {
   ngOnInit(): void {
     this.loadAgents();
     this.editForm = this.fb.group({
-      agentId: [this.ticket?.agentId || '', [Validators.required]],
+      agentId: [this.ticket?.agent._id || '', [Validators.required]],
       title: [this.ticket?.title || ''],
       status: [this.ticket?.status || ''],
       description: [this.ticket?.description || ''],
     });
   }
+
   // form getters
   get agentIdControl() {
     return this.editForm.get('agentId');

@@ -42,7 +42,7 @@ export class TktServiceService {
 
   updateTicketStatus(chatId: string, status: string): Observable<Ticket> {
     const token = localStorage.getItem('token') || '';
-    
+
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json',
@@ -50,5 +50,15 @@ export class TktServiceService {
 
     const body = { status };
     return this._http.put<Ticket>(`${this.URL}/${chatId}`, body, { headers });
+  }
+
+  getRecentTickets(token: string): Observable<Ticket[]> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+    return this._http.get<Ticket[]>(
+      `http://localhost:3000/admin/dashboard/recent-chats`,
+      { headers }
+    );
   }
 }

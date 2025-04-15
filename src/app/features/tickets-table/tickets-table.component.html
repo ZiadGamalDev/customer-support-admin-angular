@@ -77,9 +77,11 @@
                   class="rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500 px-3 py-2"
                   title="Change status (updates immediately)"
                 >
+                <option [value]="ticket.status">{{ticket.status}}</option>
                   <option *ngIf="ticket.status === 'open'" value="open">
                     Open
                   </option>
+                  <option *ngIf="ticket.status === 'new'" value="new">New</option>
                   <option value="pending">Pending</option>
                   <option value="resolved">Resolved</option>
                 </select>

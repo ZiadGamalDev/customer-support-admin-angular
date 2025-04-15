@@ -42,6 +42,8 @@ export class TicketsTableComponent implements OnInit {
     const token = localStorage.getItem('token') || '';
     this.tktService.getTickets(token).subscribe({
       next: (response: Ticket[]) => {
+        console.log(response);
+        
         this.tickets = response.map(ticket => ({ ...ticket, isLoading: false }));
         this.isLoading = false;
       },

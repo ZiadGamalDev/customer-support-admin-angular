@@ -51,6 +51,7 @@ export class TicketsTableComponent implements OnInit {
         this.tickets = response.map((ticket) => ({
           ...ticket,
           isLoading: false,
+          name:ticket.agent?.name|| 'Unassigned Yet'
         }));
         
         this.filteredTickets = [...this.tickets];

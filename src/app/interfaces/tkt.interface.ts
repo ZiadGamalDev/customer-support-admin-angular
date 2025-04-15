@@ -11,7 +11,7 @@ export interface Ticket {
   agentId: string
   agent: {
     _id: string;
-    name: string;
+    name?: string;
     email: string;
   };
   

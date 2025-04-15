@@ -3,10 +3,11 @@
   (ngSubmit)="onSubmit()"
   class="bg-white border border-gray-200 rounded-xl shadow p-6 mx-5 mt-3 overflow-x-auto"
 >
-  <div class="flex flex-col justify-end">
-    <button
+  <div class="flex flex-col ">
+    <div class="flex justify-end">
+      <button
       (click)="onClose()"
-      class="cursor-pointer h-7 w-7 mb-5 hover:bg-gray-200 duration-200 transition-all rounded-full"
+      class="cursor-pointer h-7 w-7 mb-5 hover:bg-red-300 duration-200 transition-all rounded-full"
     >
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
@@ -23,6 +24,8 @@
         </g>
       </svg>
     </button>
+    </div>
+    
     <div>
       <!-- Agent ID Field -->
       <div class="mb-6">

@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Ticket, TicketUpdate } from '../../interfaces/tkt.interface';
+import { DashTicket, Ticket, TicketUpdate } from '../../interfaces/tkt.interface';
 import { catchError, Observable, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
@@ -60,11 +60,11 @@ export class TktServiceService {
     return this._http.delete(`${this.URL}/${ticketId}`, { headers });
   }
 
-  getRecentTickets(token: string): Observable<Ticket[]> {
+  getRecentTickets(token: string): Observable<DashTicket[]> {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    return this._http.get<Ticket[]>(
+    return this._http.get<DashTicket[]>(
       `http://localhost:3000/admin/dashboard/recent-chats`,
       { headers }
     );

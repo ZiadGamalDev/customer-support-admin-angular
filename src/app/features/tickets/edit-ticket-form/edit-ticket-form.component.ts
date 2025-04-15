@@ -37,7 +37,7 @@ export class EditTicketFormComponent {
   ngOnInit(): void {
     this.loadAgents();
     this.editForm = this.fb.group({
-      agentId: [this.ticket?.agent._id || '', [Validators.required]],
+      agentId: [this.ticket?.agentId || '', [Validators.required]],
       title: [this.ticket?.title || ''],
       description: [this.ticket?.description || ''],
     });

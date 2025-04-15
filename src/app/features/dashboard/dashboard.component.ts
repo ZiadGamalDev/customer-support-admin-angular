@@ -5,7 +5,7 @@ import { AgentProfileService } from '../../services/agent-profile/agent.profile.
 import { AgentSidebarComponent } from '../sidebar/agent-sidebar/agent-sidebar.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Ticket } from '../../interfaces/tkt.interface';
+import { DashTicket, Ticket } from '../../interfaces/tkt.interface';
 import { TktServiceService } from '../../services/tickets/tkt-service.service';
 import { RouterLink } from '@angular/router';
 
@@ -24,7 +24,7 @@ export class DashboardComponent {
   loading = true;
   error: string | null = null;
 
-  tickets: Ticket[] = [];
+  tickets: DashTicket[] = [];
   isLoading: boolean = false;
 
   constructor(
@@ -83,7 +83,7 @@ export class DashboardComponent {
     const token = localStorage.getItem('token') || '';
 
     this.tktServiceService.getRecentTickets(token).subscribe({
-      next: (response: Ticket[]) => {
+      next: (response: DashTicket[]) => {
         console.log(response);
 
         this.tickets = response;

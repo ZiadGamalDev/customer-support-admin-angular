@@ -266,22 +266,13 @@
       </div>
     </div>
 
-    <!-- Loading & Error -->
-    <div
-      *ngIf="loading"
-      class="p-4 text-center text-gray-500 flex items-center justify-center gap-3"
-    >
-      Loading agents...
-      <div
-        class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-gray-300 border-t-blue-600 mb-2"
-      ></div>
-    </div>
+    <!--  & Error -->
     <div *ngIf="error" class="p-4 text-center text-red-500">
       {{ error }}
     </div>
 
     <!-- Table -->
-    <div class="overflow-x-auto" *ngIf="!loading && !error">
+    <div class="overflow-x-auto" *ngIf="!error">
       <table class="w-full">
         <thead>
           <tr class="border-b border-gray-200 bg-gray-50 text-left">
@@ -583,7 +574,7 @@
                       </button>
                       <button
                         type="submit"
-                        [disabled]="isLoading"
+                        [disabled]="agentForm.invalid || isLoading"
                         class="px-5 py-2 bg-sky-700 text-white rounded-md hover:bg-sky-800 transition-all duration-200 cursor-pointer disabled:bg-gray-400 disabled:cursor-not-allowed"
                       >
                         {{ isLoading ? "Editing..." : "Edit" }}
@@ -636,7 +627,7 @@
     <!-- * Pagination -->
     <div
       class="px-4 py-3 flex items-center justify-between border-t border-gray-200"
-      *ngIf="!loading && !error && filteredUsers.length > 0"
+      *ngIf="!error && filteredUsers.length > 0"
     >
       <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
         <div>

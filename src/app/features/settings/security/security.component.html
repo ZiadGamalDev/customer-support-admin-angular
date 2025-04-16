@@ -67,7 +67,8 @@
           <i [class]="showNewPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
         </button>
       </div>
-      @if (newPasswordControl?.errors?.['required'] && newPasswordControl?.touched) {
+      @if (newPasswordControl?.errors?.['required'] &&
+      newPasswordControl?.touched) {
       <small class="text-red-700 flex items-center mt-1">
         <i class="fas fa-exclamation-circle mr-1"></i>
         New password is required
@@ -200,15 +201,19 @@
           (click)="showConfirmPassword = !showConfirmPassword"
           class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
         >
-          <i [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          <i
+            [class]="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"
+          ></i>
         </button>
       </div>
-      @if (passwordForm.errors?.['passwordMismatch'] && confirmPasswordControl?.touched) {
+      @if (passwordForm.errors?.['passwordMismatch'] &&
+      confirmPasswordControl?.touched) {
       <small class="text-red-700 flex items-center mt-1">
         <i class="fas fa-exclamation-circle mr-1"></i>
         Passwords do not match
       </small>
-      } @else if (confirmPasswordControl?.errors?.['required'] && confirmPasswordControl?.touched) {
+      } @else if (confirmPasswordControl?.errors?.['required'] &&
+      confirmPasswordControl?.touched) {
       <small class="text-red-700 flex items-center mt-1">
         <i class="fas fa-exclamation-circle mr-1"></i>
         Confirm password is required

@@ -40,7 +40,6 @@
             [class.border-red-500]="
               agentIdControl?.invalid && agentIdControl?.touched
             "
-            required
           >
             <option value="">Select an Agent</option>
             @for (agent of agents; track agent.id) {

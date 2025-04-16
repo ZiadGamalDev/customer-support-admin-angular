@@ -29,8 +29,8 @@ export class TicketsTableComponent implements OnInit {
   selectedTicket: Ticket | null = null;
   searchQuery: string = '';
   filteredTickets: Ticket[] = [];
-  currentPage:number=1
-  pageSize:number=5
+  currentPage: number = 1;
+  pageSize: number = 5;
   constructor(
     private tktService: TktServiceService,
     private toastr: ToastrService
@@ -46,14 +46,12 @@ export class TicketsTableComponent implements OnInit {
     const token = localStorage.getItem('token') || '';
     this.tktService.getTickets(token).subscribe({
       next: (response: Ticket[]) => {
-        console.log(response);
-        
         this.tickets = response.map((ticket) => ({
           ...ticket,
           isLoading: false,
-          name:ticket.agent?.name|| 'Unassigned Yet'
+          name: ticket.agent?.name || 'Unassigned Yet',
         }));
-        
+
         this.filteredTickets = [...this.tickets];
         this.isLoading = false;
       },
@@ -64,7 +62,7 @@ export class TicketsTableComponent implements OnInit {
     });
   }
 
-  get PaginatedTickets(){
+  get PaginatedTickets() {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     return this.filteredTickets.slice(startIndex, endIndex);
@@ -74,8 +72,8 @@ export class TicketsTableComponent implements OnInit {
     return Math.ceil(this.filteredTickets.length / this.pageSize);
   }
 
-  changePage(page:number){
-    if(page>=1&&page<=this.totalPages){
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
       this.currentPage = page;
     }
   }
@@ -87,17 +85,17 @@ export class TicketsTableComponent implements OnInit {
     }
     return pages;
   }
+
   searchTickets(query: string) {
     this.searchQuery = query;
-    if(!query.trim){
+    if (!query.trim) {
       this.filteredTickets = [...this.tickets];
       return;
     }
-   
-      this.filteredTickets = this.tickets.filter((ticket) =>
-        ticket.title?.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-   
+
+    this.filteredTickets = this.tickets.filter((ticket) =>
+      ticket.title?.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
   }
 
   updateTicketInTable(updatedTicket: Ticket) {
@@ -143,6 +141,10 @@ export class TicketsTableComponent implements OnInit {
     this.tktService.deleteTicket(ticket.id, token).subscribe({
       next: () => {
         this.tickets = this.tickets.filter((t) => t.id !== ticket.id);
+        this.filteredTickets = this.filteredTickets.filter(
+          (t) => t.id !== ticket.id
+        );
+
         this.toastr.success('Ticket deleted successfully!', 'Success');
       },
       error: (err) => {

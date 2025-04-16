@@ -38,15 +38,6 @@ export class EditProfileComponent implements OnInit, OnDestroy {
   ) {
     this.profileForm = this.fb.group({
       name: ['', [Validators.required, this.validateName()]],
-      email: [
-        '',
-        [
-          Validators.required,
-          Validators.email,
-          this.validateEmailFormat(),
-          this.validateEmailDomain(),
-        ],
-      ],
       phone: ['', [Validators.required, this.validateEgyptianPhone()]],
     });
   }
@@ -182,51 +173,51 @@ export class EditProfileComponent implements OnInit, OnDestroy {
     };
   }
 
-  private validateEmailFormat(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
+  // private validateEmailFormat(): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const value = control.value;
 
-      if (!value) return null;
+  //     if (!value) return null;
 
-      // Strong email regex that prevents invalid TLDs
-      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      const numericTldRegex = /\.[0-9]+$/; // Prevents domains ending in numbers
+  //     // Strong email regex that prevents invalid TLDs
+  //     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  //     const numericTldRegex = /\.[0-9]+$/; // Prevents domains ending in numbers
 
-      if (!emailRegex.test(value) || numericTldRegex.test(value)) {
-        return { invalidEmailFormat: true };
-      }
+  //     if (!emailRegex.test(value) || numericTldRegex.test(value)) {
+  //       return { invalidEmailFormat: true };
+  //     }
 
-      return null;
-    };
-  }
+  //     return null;
+  //   };
+  // }
 
-  private validateEmailDomain(): ValidatorFn {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const value = control.value;
+  // private validateEmailDomain(): ValidatorFn {
+  //   return (control: AbstractControl): ValidationErrors | null => {
+  //     const value = control.value;
 
-      if (!value) return null;
+  //     if (!value) return null;
 
-      const allowedDomains = new Set([
-        'gmail.com',
-        'yahoo.com',
-        'outlook.com',
-        'hotmail.com',
-        'icloud.com',
-        'aol.com',
-        'mail.ru',
-        'protonmail.com',
-        'zoho.com',
-        'yandex.com',
-      ]);
+  //     const allowedDomains = new Set([
+  //       'gmail.com',
+  //       'yahoo.com',
+  //       'outlook.com',
+  //       'hotmail.com',
+  //       'icloud.com',
+  //       'aol.com',
+  //       'mail.ru',
+  //       'protonmail.com',
+  //       'zoho.com',
+  //       'yandex.com',
+  //     ]);
 
-      const domain = value.split('@')[1]?.toLowerCase();
-      if (!domain || !allowedDomains.has(domain)) {
-        return { invalidDomain: true };
-      }
+  //     const domain = value.split('@')[1]?.toLowerCase();
+  //     if (!domain || !allowedDomains.has(domain)) {
+  //       return { invalidDomain: true };
+  //     }
 
-      return null;
-    };
-  }
+  //     return null;
+  //   };
+  // }
 
   private validateEgyptianPhone(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {

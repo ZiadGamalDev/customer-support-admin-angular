@@ -116,15 +116,7 @@
                 {{ ticket.description }}
               </td>
               <td class="px-6 py-4 text-sm text-gray-700 font-medium">
-                <!-- Display agent name or "Unassigned" if no agent is assigned -->
-                @if (ticket.agent?.name) {
-                  {{ ticket.agent.name }}
-                } @else {
-                  <span class="text-yellow-600 bg-yellow-100 px-2 py-1 rounded-md">
-                    Unassigned
-                  </span>
-                }
-              
+                {{ ticket.agent?.name || 'Unassigned' }}
               </td>
               <td class="px-6 py-4 text-sm flex gap-3 mt-5">
                 <button

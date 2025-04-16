@@ -38,8 +38,6 @@ private loadAdminProfile():void{
   this.agentProfileService.getProfile(userAccessToken).pipe().subscribe({
    
     next: (profile) => {
-      // Handle the profile data here
-      console.log('Profile loaded:', profile);
       this.adminName=profile.name
     },
     error: (error) => {

@@ -80,9 +80,10 @@ export class EditTicketFormComponent {
         next: (response) => {
           this.isSubmitting = false;
           this.toastr.success('Ticket updated successfully!', 'Success');
-          this.ticketUpdated.emit(response);
           this.editForm.reset();
           this.close.emit();
+          this.loadAgents();
+          this.ticketUpdated.emit(response);
         },
         error: (error) => {
           this.isSubmitting = false;

@@ -44,8 +44,6 @@ export class DashboardComponent {
       .pipe()
       .subscribe({
         next: (profile) => {
-          // Handle the profile data here
-          console.log('Profile loaded:', profile);
           this.adminName = profile.name;
         },
         error: (error) => {
@@ -67,7 +65,6 @@ export class DashboardComponent {
         next: (res: any) => {
           this.statistics = res.statistics;
           this.loading = false;
-          console.log('Statistics:', this.statistics);
         },
         error: (err) => {
           this.error = 'Failed to load statistics. Please try again later.';
@@ -84,8 +81,6 @@ export class DashboardComponent {
 
     this.tktServiceService.getRecentTickets(token).subscribe({
       next: (response: DashTicket[]) => {
-        console.log(response);
-
         this.tickets = response;
         this.isLoading = false;
       },

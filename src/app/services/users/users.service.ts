@@ -63,7 +63,6 @@ export class UsersService {
     const body = { email };
 
     const token = localStorage.getItem('token');
-    console.log('Token:', token);
 
     const headers = {
       Authorization: `Bearer ${token}`,

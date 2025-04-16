@@ -76,9 +76,6 @@ export class SecurityComponent implements OnInit {
       if (!/[0-9]/.test(password)) {
         errors['noNumber'] = true;
       }
-      if (!/[@$!%*?&]/.test(password)) {
-        errors['noSpecialChar'] = true;
-      }
 
       return Object.keys(errors).length === 0 ? null : errors;
     };
@@ -94,7 +91,6 @@ export class SecurityComponent implements OnInit {
     if (/[A-Z]/.test(password)) strength += 20;
     if (/[a-z]/.test(password)) strength += 20;
     if (/[0-9]/.test(password)) strength += 20;
-    if (/[@$!%*?&]/.test(password)) strength += 20;
 
     return strength;
   }
@@ -123,10 +119,6 @@ export class SecurityComponent implements OnInit {
 
   hasNumber(value: string | null): boolean {
     return value ? /[0-9]/.test(value) : false;
-  }
-
-  hasSpecialChar(value: string | null): boolean {
-    return value ? /[@$!%*?&]/.test(value) : false;
   }
 
   hasMinLength(value: string | null): boolean {

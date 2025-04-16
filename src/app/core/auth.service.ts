@@ -84,26 +84,6 @@ export class AuthService {
       );
   }
 
-  register(
-    name: string,
-    email: string,
-    password: string,
-    confirmedPassword: string
-  ): Observable<void> {
-    return this.http
-      .post<{ token: string }>(`${this.apiBaseUrl}/auth/register`, {
-        name,
-        email,
-        password,
-        confirmedPassword,
-      })
-      .pipe(
-        tap((res) => this.setToken(res.token)),
-        map(() => void 0),
-        catchError(this.handleError)
-      );
-  }
-
   logout(): void {
     this.clearToken();
     this.router.navigateByUrl('/login');

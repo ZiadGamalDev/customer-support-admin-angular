@@ -38,13 +38,7 @@
       <div
         class="rounded shadow border border-gray-200 mt-2 w-full overflow-x-auto"
       >
-        @if (isLoading) {
-        <div class="flex justify-center items-center h-64">
-          <div
-            class="inline-block animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"
-          ></div>
-        </div>
-        } @else if (error) {
+        @if (error) {
         <div class="flex justify-center items-center h-64">
           <p class="text-red-500">{{ error }}</p>
         </div>
@@ -140,7 +134,7 @@
         <!-- Add this after your table -->
         <div
           class="px-4 py-3 flex items-center justify-between border-t border-gray-200"
-          *ngIf="!isLoading && !error && filteredTickets.length > 0"
+          *ngIf="!error && filteredTickets.length > 0"
         >
           <div
             class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between"

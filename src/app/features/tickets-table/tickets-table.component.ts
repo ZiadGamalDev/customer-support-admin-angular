@@ -31,6 +31,7 @@ export class TicketsTableComponent implements OnInit {
   filteredTickets: Ticket[] = [];
   currentPage: number = 1;
   pageSize: number = 5;
+  intervalId: any;
   constructor(
     private tktService: TktServiceService,
     private toastr: ToastrService
@@ -38,6 +39,11 @@ export class TicketsTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTickets();
+    this.intervalId = setInterval(() => this.getTickets(), 5000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
   }
 
   getTickets() {

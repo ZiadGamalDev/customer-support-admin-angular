@@ -47,6 +47,8 @@ export class AgentsComponent {
   isClosingEdit = false;
   selectedAgentId: string | null = null;
 
+  intervalId:any;
+
   agent = {
     name: '',
     email: '',
@@ -108,6 +110,11 @@ export class AgentsComponent {
 
   ngOnInit(): void {
     this.fetchUsers();
+    this.intervalId = setInterval(() => this.fetchUsers(), 5000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
   }
 
   fetchUsers(): void {

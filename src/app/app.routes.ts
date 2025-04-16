@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './features/login/login.component';
-import { RegisterComponent } from './features/register/register.component';
 import { AuthGuard } from './core/auth.guard';
 import { TicketsPageComponent } from './features/tickets-page/tickets-page.component';
 import { SettingComponent } from './features/settings/setting/setting.component';
@@ -12,7 +11,6 @@ export const routes: Routes = [
   // Public routes
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
 
   // Protected routes inside layout
   {

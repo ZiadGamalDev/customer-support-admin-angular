@@ -166,20 +166,6 @@
           ></i>
           One number
         </small>
-
-        <!-- Special Character Check -->
-        <small
-          class="flex items-center"
-          [class.text-green-600]="hasSpecialChar(newPasswordControl?.value)"
-          [class.text-gray-500]="!hasSpecialChar(newPasswordControl?.value)"
-        >
-          <i
-            class="fas mr-2"
-            [class.fa-check-circle]="hasSpecialChar(newPasswordControl?.value)"
-            [class.fa-circle]="!hasSpecialChar(newPasswordControl?.value)"
-          ></i>
-          One special character (&#64;$!%*?&)
-        </small>
       </div>
     </div>
 

@@ -3,12 +3,13 @@ import { Injectable } from '@angular/core';
 import { DashTicket, Ticket, TicketUpdate } from '../../interfaces/tkt.interface';
 import { catchError, Observable, tap } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TktServiceService {
-  private URL = 'http://localhost:3000/admin/chats';
+  private URL = `${environment.apiUrl}/admin/chats`;
 
   constructor(private _http: HttpClient, private toastr: ToastrService) {}
   getTickets(userAccessToken: string): Observable<Ticket[]> {
@@ -65,7 +66,7 @@ export class TktServiceService {
       Authorization: `Bearer ${token}`,
     });
     return this._http.get<DashTicket[]>(
-      `http://localhost:3000/admin/dashboard/recent-chats`,
+      `${environment.apiUrl}/admin/dashboard/recent-chats`,
       { headers }
     );
   }

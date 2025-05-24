@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
+import { environment } from '../environments/environment';
 
 interface JwtPayload {
   id: string;
@@ -16,7 +17,7 @@ export class AuthService {
   /** ------------------------------------------------------------------
    *  CONFIG
    *  ------------------------------------------------------------------ */
-  private readonly apiBaseUrl = 'http://localhost:3000'; // 👈 no environment file
+  private readonly apiBaseUrl = environment.apiUrl; // 👈 no environment file
 
   /** ------------------------------------------------------------------
    *  STATE

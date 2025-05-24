@@ -7,11 +7,12 @@ import {
 
 import { AgentProfile } from '../../interfaces/agentProfile.interface';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class AgentProfileService {
-  private apiURL = 'http://localhost:3000/admin/profile';
+  private apiURL = `${environment.apiUrl}/admin/profile`;
 
   constructor(private _http: HttpClient) {}
 

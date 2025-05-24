@@ -6,6 +6,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 interface PasswordResponse {
   message: string;
@@ -15,7 +16,7 @@ interface PasswordResponse {
   providedIn: 'root',
 })
 export class ForgetpasswordService {
-  private baseUrl = 'http://localhost:3000/password';
+  private baseUrl = `${environment.apiUrl}/password`;
 
   constructor(private http: HttpClient) {}
 

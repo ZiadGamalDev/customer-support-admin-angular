@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
-
-import { AgentProfileService } from '../../services/agent-profile/agent.profile.service';
-
-import { AgentSidebarComponent } from '../sidebar/agent-sidebar/agent-sidebar.component';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
+
+import { AgentProfileService } from '../../services/agent-profile/agent.profile.service';
+import { AgentSidebarComponent } from '../sidebar/agent-sidebar/agent-sidebar.component';
 import { DashTicket, Ticket } from '../../interfaces/tkt.interface';
 import { TktServiceService } from '../../services/tickets/tkt-service.service';
-import { RouterLink } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -60,7 +60,7 @@ export class DashboardComponent {
     });
 
     this.http
-      .get('http://localhost:3000/admin/dashboard/statistics', { headers })
+      .get(`${environment.apiUrl}/admin/dashboard/statistics`, { headers })
       .subscribe({
         next: (res: any) => {
           this.statistics = res.statistics;
@@ -113,7 +113,7 @@ export class DashboardComponent {
     const day = d.getDate();
     const year = d.getFullYear();
     const hours = d.getHours() % 12 || 12;
-    const minutes = d.getMinutes().toString().padStart(2, '0'); 
+    const minutes = d.getMinutes().toString().padStart(2, '0');
     const period = d.getHours() >= 12 ? 'PM' : 'AM';
     return `${month}/${day}/${year} ${hours}:${minutes} ${period}`;
   }

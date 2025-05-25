@@ -1,59 +1,62 @@
-# AgentDash
+# Customer Support Admin Dashboard – Angular
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
+A full-featured **Angular** dashboard for **admins** to manage agents, monitor chats, and keep the customer support system running smoothly.
 
-## Development server
+Built to connect with the backend system and provide direct control over support operations.
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🛠️ Admin Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- ✅ Login as Admin
+- 👤 View agents & their status (Available, Busy, Away)
+- 🎫 View all chats with filters (New, Open, Pending, Resolved)
+- 🔄 Reassign chats manually to available agents
+- 🕹️ Change agent status manually
+- 💬 View chat details
+- 📋 Change chat status directly
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🚀 Getting Started
 
-```bash
-ng generate component component-name
-```
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/ZiadGamalDev/customer-support-admin-angular.git
+   ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-```bash
-ng generate --help
-```
+3. Create `src/app/environments/environment.ts` with:
+   ```ts
+   export const environment = {
+     production: false,
+     apiUrl: 'http://localhost:5000',
+     socketUrl: 'http://localhost:5000',
+   };
+   ```
 
-## Building
+4. Run the project:
+   ```bash
+   ng serve
+   ```
 
-To build the project run:
+---
 
-```bash
-ng build
-```
+## 🌐 Full Ecosystem
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+This dashboard is part of a multi-repo customer support system.
+For full functionality, connect it to the backend:
+👉 [Customer Support Backend Repo](https://github.com/ZiadGamalDev/customer-support-node)
 
-## Running unit tests
+Or see the entire project:
+👉 [Customer Support System Root Repo](https://github.com/ZiadGamalDev/customer-support-system)
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+---
 
-```bash
-ng test
-```
+## 📄 License
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+MIT – free to use, modify, and share ❤️

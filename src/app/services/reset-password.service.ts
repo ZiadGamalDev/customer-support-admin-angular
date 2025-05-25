@@ -6,6 +6,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 interface UpdatePasswordResponse {
   message: string;
@@ -15,7 +16,7 @@ interface UpdatePasswordResponse {
   providedIn: 'root',
 })
 export class ResetPasswordService {
-  private apiUrl = 'http://localhost:3000/password/update';
+  private apiUrl = `${environment.apiUrl}/password/update`;
 
   constructor(private http: HttpClient) {}
 

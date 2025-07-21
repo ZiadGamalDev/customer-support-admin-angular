@@ -40,3 +40,11 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+.vercel
+.notes
+
+# Vercel Environment Files
+.env.vercel
+.env.production.vercel
+.env.*.vercel

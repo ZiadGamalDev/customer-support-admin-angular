@@ -4,6 +4,11 @@ A full-featured **Angular** dashboard for **admins** to manage agents, monitor c
 
 Built to connect with the backend system and provide direct control over support operations.
 
+## 🌐 Live Demo
+
+- **Production App:** https://customer-support-admin-angular.vercel.app/
+- **Backend API:** https://customer-support-node.dinamo-app.com/
+
 ---
 
 ## 🛠️ Admin Features
@@ -30,12 +35,21 @@ Built to connect with the backend system and provide direct control over support
    npm install
    ```
 
-3. Create `src/app/environments/environment.ts` with:
+3. Update `src/app/environments/environment.ts` for development:
    ```ts
    export const environment = {
      production: false,
-     apiUrl: 'http://localhost:5000',
-     socketUrl: 'http://localhost:5000',
+     apiUrl: 'http://localhost:3000',
+     socketUrl: 'http://localhost:3000',
+   };
+   ```
+
+   Or use production environment in `src/app/environments/environment.prod.ts`:
+   ```ts
+   export const environment = {
+     production: true,
+     apiUrl: 'https://customer-support-node.dinamo-app.com',
+     socketUrl: 'https://customer-support-node.dinamo-app.com'
    };
    ```
 

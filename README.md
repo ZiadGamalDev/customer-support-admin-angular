@@ -7,7 +7,7 @@ Built to connect with the backend system and provide direct control over support
 ## 🌐 Live Demo
 
 - **Production App:** https://customer-support-admin-angular.vercel.app/
-- **Backend API:** https://customer-support-node.dinamo-app.com/
+- **Backend API:** https://customer-support-api.ziadgamal.com/
 
 ---
 
@@ -48,8 +48,8 @@ Built to connect with the backend system and provide direct control over support
    ```ts
    export const environment = {
      production: true,
-     apiUrl: 'https://customer-support-node.dinamo-app.com',
-     socketUrl: 'https://customer-support-node.dinamo-app.com'
+     apiUrl: 'https://customer-support-api.ziadgamal.com',
+     socketUrl: 'https://customer-support-api.ziadgamal.com'
    };
    ```
 

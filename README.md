@@ -6,8 +6,9 @@ Built to connect with the backend system and provide direct control over support
 
 ## 🌐 Live Demo
 
-- **Production App:** https://customer-support-admin-angular.vercel.app/
-- **Backend API:** https://customer-support-api.ziadgamal.com/
+- **Production App:** https://customer-support-admin.ziadgamal.com
+- **Backend API:** https://customer-support-api.ziadgamal.com
+- **Legacy Vercel:** https://customer-support-admin-angular.vercel.app (redirects to new domain)
 
 ---
 
